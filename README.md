@@ -46,5 +46,6 @@ yarn android
 
 ## Screenshots
 
-![](docs/screenshot_1.png)
-![](docs/screenshot_2.png)
+<img src="docs/secreenshot_1.png" alt="screenshot 1" height="400"/>
+
+<img src="docs/secreenshot_2.png" alt="screenshot 2" height="400"/>
