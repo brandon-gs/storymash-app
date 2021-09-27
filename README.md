@@ -46,4 +46,4 @@ yarn android
 
 ## Screenshots
 
-[[./docs/screenshot_1.png|width=240px]]
+<img src="./docs/screenshot_1.png" width="240" height="480">
