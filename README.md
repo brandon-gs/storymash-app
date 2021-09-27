@@ -43,3 +43,8 @@ yarn android
 - React
 - Redux
 - Jest
+
+## Screenshots
+
+![](docs/screenshot_1.png
+![](docs/screenshot_2.png
