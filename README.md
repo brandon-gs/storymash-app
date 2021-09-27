@@ -46,4 +46,5 @@ yarn android
 
 ## Screenshots
 
-<img src="./docs/screenshot_1.png" width="240" height="480">
+<img src="./docs/screenshot_1.png" width="216" height="444">
+<img src="./docs/screenshot_2.png" width="216" height="444">
