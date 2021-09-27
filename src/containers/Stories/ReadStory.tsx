@@ -1,0 +1,157 @@
+import React from 'react';
+import _ from 'lodash';
+import {StyledText, Box, ListStoryParts} from 'components';
+import {Story} from 'interfaces/story';
+import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import CoverStory, {COVER_SIZE} from './CoverStory';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {LikeButton} from 'components';
+import useLikeButton from 'hooks/useLikeButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {useTheme} from 'react-native-elements';
+import {useNavigation} from '@react-navigation/core';
+import actions from 'store/actions';
+import Comments from './Comments';
+
+interface ReadStoryProps {
+  story: Story;
+  storyPartIndex: number;
+}
+
+const {height} = Dimensions.get('window');
+
+function ReadStory({story, storyPartIndex}: ReadStoryProps) {
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state.authentication);
+  const {theme} = useTheme();
+  const navigation = useNavigation();
+
+  const {addOrRemoveLike} = useLikeButton();
+
+  const isAuthor = story.author._id === user?._id;
+  const liked = story.parts[storyPartIndex].likes.includes(user?._id || '');
+  const isLastPart =
+    storyPartIndex === story.totalParts - 1 || story.totalParts < 2;
+
+  const part = story.parts[storyPartIndex];
+
+  return (
+    <Box bg="white">
+      <CoverStory
+        story={story}
+        fontSize={3}
+        canGoBack={navigation.canGoBack()}
+        isLastPart={isLastPart}
+        onPressGoBack={() => {
+          navigation.goBack();
+        }}
+        onPressNextPart={() => {
+          if (!isLastPart) {
+            dispatch(actions.story.updateCurrentPartIndex(storyPartIndex + 1));
+          }
+        }}
+      />
+      {/* Story title, content and like section */}
+      <Box pt={1} pb={2} style={styles.storyContent}>
+        {/* Story title */}
+        <Box px={2} my={1}>
+          <StyledText
+            fontVariant="black"
+            fsize={calculateFontSize(story.title)}
+            align="right">
+            {story.title}
+          </StyledText>
+        </Box>
+
+        {/* Story parts navigation */}
+        <Box>
+          <ListStoryParts
+            totalParts={story.totalParts}
+            textProps={{
+              fontSize: 2,
+            }}
+            buttonGroupProps={{
+              onPress: index => {
+                dispatch(actions.story.updateCurrentPartIndex(index));
+              },
+              selectedIndex: storyPartIndex,
+              innerBorderStyle: {
+                width: 0,
+              },
+              buttonContainerStyle: styles.buttonContainerStyle,
+              containerStyle: styles.containerStyle,
+              selectedButtonStyle: {
+                ...styles.selectedButtonStyle,
+                borderBottomColor: theme.colors?.primary,
+              },
+            }}
+          />
+        </Box>
+
+        {/* Story part content */}
+        <Box px={2} mb={2}>
+          <StyledText fontVariant="regular" fsize={2.7}>
+            {`${part.content}`}
+          </StyledText>
+        </Box>
+
+        {/* Grow content */}
+        <View style={styles.grow} />
+
+        {/* Statistics */}
+        <Box px={2} direction="row">
+          <TouchableOpacity
+            onPress={async () => await addOrRemoveLike(story, storyPartIndex)}
+            disabled={isAuthor}>
+            <Box direction="row" pr={2}>
+              <LikeButton isAuthor={isAuthor} liked={liked} />
+              <StyledText>{part.likes.length}</StyledText>
+            </Box>
+          </TouchableOpacity>
+          <Box direction="row">
+            <Icon name="chatbubbles-outline" size={32} />
+            <StyledText>{part.comments.length}</StyledText>
+          </Box>
+        </Box>
+      </Box>
+
+      {/* Comments section */}
+      <Comments commentsCount={part.comments.length} />
+    </Box>
+  );
+}
+
+const styles = StyleSheet.create({
+  storyContent: {
+    minHeight: height - COVER_SIZE - 64 - 24,
+    borderBottomColor: '#e2e2e2',
+    borderBottomWidth: 1,
+  },
+  grow: {
+    flex: 1,
+    flexGrow: 1,
+  },
+  buttonContainerStyle: {
+    backgroundColor: 'white',
+    padding: 0,
+  },
+  containerStyle: {
+    width: 480,
+    borderWidth: 0,
+    padding: 0,
+  },
+  selectedButtonStyle: {
+    backgroundColor: 'white',
+    borderBottomWidth: 2,
+    padding: 0,
+  },
+});
+
+function calculateFontSize(title: string) {
+  const fSize = 4 - Math.round(title.length / 21);
+  return fSize >= 3 ? fSize : 4;
+}
+
+export default React.memo(ReadStory, (prev, next) => {
+  return _.isEqual(prev, next);
+});
