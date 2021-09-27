@@ -46,5 +46,5 @@ yarn android
 
 ## Screenshots
 
-![](docs/screenshot_1.png
-![](docs/screenshot_2.png
+![](docs/screenshot_1.png)
+![](docs/screenshot_2.png)
