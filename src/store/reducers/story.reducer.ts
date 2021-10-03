@@ -5,8 +5,14 @@ import {
   UPDATE_CURRENT_STORY,
   UPDATE_CURRENT_PART_INDEX,
   ADD_VIEW_TO_STORY,
+  ADD_COMMENT_TO_CURRENT_STORY,
+  REMOVE_COMMENT_FROM_CURRENT_STORY,
 } from 'store/types/story.types';
-import {addUserToStoryPartLikes} from 'utils/stories';
+import {
+  addCommentToStoryPart,
+  addUserToStoryPartLikes,
+  removeCommentFromStoryPart,
+} from 'utils/stories';
 
 const initialState: StoryState = null;
 
@@ -53,6 +59,27 @@ export default function storyReducer(
         totalLikes,
         parts: state.parts.map(
           addUserToStoryPartLikes(storyPartIndex, userId, option),
+        ),
+      };
+    }
+    case ADD_COMMENT_TO_CURRENT_STORY: {
+      const {comment, storyPartIndex} = action.payload;
+      if (!state) {
+        return null;
+      }
+      return {
+        ...state,
+        totalComments: state.totalComments + 1,
+        parts: state.parts.map(addCommentToStoryPart(storyPartIndex, comment)),
+      };
+    }
+    case REMOVE_COMMENT_FROM_CURRENT_STORY: {
+      const {commentIndex, storyPartIndex} = action.payload;
+      return {
+        ...state!,
+        totalComments: state!.totalComments - 1,
+        parts: state!.parts.map(
+          removeCommentFromStoryPart(storyPartIndex, commentIndex),
         ),
       };
     }

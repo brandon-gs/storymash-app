@@ -1,5 +1,5 @@
 import {LikeActions} from 'hooks/useLikeButton';
-import {Story, StoryPart} from 'interfaces/story';
+import {Story, StoryPart, StoryPartComment} from 'interfaces/story';
 
 export const addOrRemoveLikeMap =
   (
@@ -31,6 +31,28 @@ export const addUserToStoryPartLikes =
         return {...part, likes: part.likes.concat(userId)};
       }
       return {...part, likes: part.likes.filter(likeId => likeId !== userId)};
+    }
+    return part;
+  };
+
+export const addCommentToStoryPart =
+  (storyPartIdx: number, comment: StoryPartComment) =>
+  (part: StoryPart, index: number): StoryPart => {
+    if (index === storyPartIdx) {
+      return {...part, comments: part.comments.concat(comment)};
+    }
+    return part;
+  };
+
+export const removeCommentFromStoryPart =
+  (partIdx: number, commentIdx: number) => (part: StoryPart, index: number) => {
+    if (index === partIdx) {
+      return {
+        ...part,
+        comments: part.comments.filter(
+          (_, currentCommentIdx) => currentCommentIdx !== commentIdx,
+        ),
+      };
     }
     return part;
   };

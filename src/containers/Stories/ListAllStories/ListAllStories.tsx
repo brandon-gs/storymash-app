@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
-import StoryItem from './StoryItem';
+import StoryItem from './StoryCardItem';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'interfaces/story';
 import useLikeButton from 'hooks/useLikeButton';
@@ -13,6 +13,7 @@ import {
   AuthStackRoutes,
   ReadStoryScreenProp,
 } from 'navigation/AuthStackNavigation';
+import EmptyStories from './EmptyStories';
 
 export interface ListStoriesProps {
   hasNextPage: boolean;
@@ -84,6 +85,7 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
       keyExtractor={keyExtractor}
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
+      ListEmptyComponent={EmptyStories}
       onRefresh={() => {
         enableRefresh();
         // Do an api call to page 0 when do onRefresh

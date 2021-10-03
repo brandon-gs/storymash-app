@@ -1,0 +1,37 @@
+diff --git a/node_modules/react-native-modalize/lib/index.js b/node_modules/react-native-modalize/lib/index.js
+index 28e86cd..57a0ab4 100644
+--- a/node_modules/react-native-modalize/lib/index.js
++++ b/node_modules/react-native-modalize/lib/index.js
+@@ -600,13 +600,13 @@ onOpen, onOpened, onClose, onClosed, onBackButtonPress, onPositionChange, onOver
+         setModalHeightValue(adjustValue);
+     }, [adjustToContentHeight, modalHeight, screenHeight]);
+     React.useEffect(() => {
+-        react_native_1.Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
+-        react_native_1.Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
++        const keyboardShowListener = react_native_1.Keyboard.addListener('keyboardDidShow', handleKeyboardShow)
++        const keyboardHideListener = react_native_1.Keyboard.addListener('keyboardDidHide', handleKeyboardHide)
+         return () => {
+             var _a;
+             (_a = backButtonListenerRef.current) === null || _a === void 0 ? void 0 : _a.remove();
+-            react_native_1.Keyboard.removeListener('keyboardDidShow', handleKeyboardShow);
+-            react_native_1.Keyboard.removeListener('keyboardDidHide', handleKeyboardHide);
++            keyboardShowListener.remove()
++            keyboardHideListener.remove()
+         };
+     }, []);
+     const keyboardAvoidingViewProps = {
+diff --git a/node_modules/react-native-modalize/lib/utils/use-dimensions.js b/node_modules/react-native-modalize/lib/utils/use-dimensions.js
+index cf67e16..73aaf70 100644
+--- a/node_modules/react-native-modalize/lib/utils/use-dimensions.js
++++ b/node_modules/react-native-modalize/lib/utils/use-dimensions.js
+@@ -28,8 +28,8 @@ exports.useDimensions = () => {
+         setDimensions(window);
+     };
+     React.useEffect(() => {
+-        react_native_1.Dimensions.addEventListener('change', onChange);
+-        return () => react_native_1.Dimensions.removeEventListener('change', onChange);
++        const dimensionChangeListener = react_native_1.Dimensions.addEventListener('change', onChange)
++        return () => dimensionChangeListener.remove()
+     }, []);
+     return dimensions;
+ };

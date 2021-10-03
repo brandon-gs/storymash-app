@@ -10,10 +10,10 @@ import useLikeButton from 'hooks/useLikeButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/core';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 import actions from 'store/actions';
-import Comments from './Comments';
 
-interface ReadStoryProps {
+export interface ReadStoryProps {
   story: Story;
   storyPartIndex: number;
 }
@@ -114,18 +114,13 @@ function ReadStory({story, storyPartIndex}: ReadStoryProps) {
           </Box>
         </Box>
       </Box>
-
-      {/* Comments section */}
-      <Comments commentsCount={part.comments.length} />
     </Box>
   );
 }
 
 const styles = StyleSheet.create({
   storyContent: {
-    minHeight: height - COVER_SIZE - 64 - 24,
-    borderBottomColor: '#e2e2e2',
-    borderBottomWidth: 1,
+    minHeight: height - COVER_SIZE - 40 - getStatusBarHeight(),
   },
   grow: {
     flex: 1,

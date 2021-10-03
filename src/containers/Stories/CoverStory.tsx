@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   iconBack: {
     position: 'absolute',
     top: 8,
+    left: 8,
   },
   goNextPart: {
     position: 'absolute',

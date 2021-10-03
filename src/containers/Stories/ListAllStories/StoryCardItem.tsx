@@ -5,7 +5,7 @@ import {Box, StyledText} from 'components';
 import {LikeButton} from 'components';
 import {Chip} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CoverStory from './CoverStory';
+import CoverStory from '../CoverStory';
 import {Story} from 'interfaces/story';
 import {User} from 'interfaces/user';
 import {themeColors} from 'theme/theme';
@@ -58,6 +58,7 @@ const StoryItem = ({
                   key={`story-${item._id}-chip-${category}`}
                   title={`# ${category}`}
                   containerStyle={styles.chip}
+                  onPress={() => onPress(item)}
                 />
               ))}
             </Box>

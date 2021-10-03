@@ -34,4 +34,5 @@ export type StoryPartComment = {
   likes: string[];
   createdAt: Date;
   updatedAt: Date;
+  author: Author;
 };

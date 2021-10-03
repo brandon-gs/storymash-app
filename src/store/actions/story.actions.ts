@@ -4,10 +4,12 @@ import {Dispatch} from 'redux';
 import {
   ADD_LIKE_TO_CURRENT_STORY,
   UPDATE_CURRENT_STORY,
-  StoryActionTypes,
   UPDATE_CURRENT_PART_INDEX,
+  ADD_COMMENT_TO_CURRENT_STORY,
   ADD_VIEW_TO_STORY,
+  StoryActionTypes,
   StoryState,
+  REMOVE_COMMENT_FROM_CURRENT_STORY,
 } from 'store/types/story.types';
 
 // Actions
@@ -60,9 +62,58 @@ const likeStoryAction = (option: LikeActions, userId: string) => {
   };
 };
 
+const addComment = (
+  storyId: string,
+  storyPartIndex: number,
+  content: string,
+) => {
+  return async (dispatch: Dispatch<StoryActionTypes>) => {
+    try {
+      const {comment} = await storyAPI.postComment(
+        storyId,
+        storyPartIndex,
+        content,
+      );
+      dispatch({
+        type: ADD_COMMENT_TO_CURRENT_STORY,
+        payload: {comment, storyPartIndex},
+      });
+    } catch (e) {
+      // Todo show an error
+      console.log(JSON.stringify(e));
+      console.log('Error adding comment');
+    }
+  };
+};
+
+const removeComment = (
+  storyId: string,
+  storyPartIndex: number,
+  commentIndex: number,
+) => {
+  return async (dispatch: Dispatch<StoryActionTypes>) => {
+    try {
+      await storyAPI.deleteComment(storyId, storyPartIndex, commentIndex);
+      dispatch({
+        type: REMOVE_COMMENT_FROM_CURRENT_STORY,
+        payload: {
+          commentIndex,
+          storyPartIndex,
+          storyId,
+        },
+      });
+    } catch (e) {
+      console.log(JSON.stringify(e));
+      console.log('Error al eliminar el comentario');
+    }
+  };
+};
+
 export default {
   addViewToStory,
   updateCurrentStory,
   updateCurrentPartIndex,
   likeStoryAction,
+  addComment,
+  removeComment,
 };

@@ -1,13 +1,28 @@
 import React from 'react';
 import {useTheme} from 'react-native-elements';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ActivityIndicatorProps,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
 
-export default function Loader() {
+interface LoaderStyle {
+  style?: StyleProp<ViewStyle>;
+  bg?: string;
+}
+
+export default function Loader({
+  bg,
+  ...props
+}: ActivityIndicatorProps & LoaderStyle) {
   const {theme} = useTheme();
 
   return (
-    <View style={styles.loaderContainer}>
-      <ActivityIndicator size={72} color={theme.colors?.primary} />
+    <View style={[styles.loaderContainer, {backgroundColor: bg}]}>
+      <ActivityIndicator size={72} color={theme.colors?.primary} {...props} />
     </View>
   );
 }

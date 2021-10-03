@@ -2,11 +2,14 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useRoute, RouteProp} from '@react-navigation/core';
 import {useThunkDispatch} from 'hooks';
 import {AuthStackParams, AuthStackRoutes} from 'navigation/AuthStackNavigation';
-import {StyleSheet, ScrollView, RefreshControl} from 'react-native';
+import {ScrollView, RefreshControl, StatusBar} from 'react-native';
 import actions from 'store/actions';
-import {Loader} from 'components';
-import {ReadStory} from 'containers';
+import {ReadStory, ModalComments} from 'containers';
 import {useSelector} from 'react-redux';
+import {Loader} from 'components';
+import {Host} from 'react-native-portalize';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
+import {themeColors} from 'theme/theme';
 
 const ReadStoryScreen = () => {
   const route =
@@ -62,23 +65,25 @@ const ReadStoryScreen = () => {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      keyboardShouldPersistTaps="always"
-      keyboardDismissMode="on-drag"
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
-      <ReadStory story={story} storyPartIndex={partIndex} />
-    </ScrollView>
+    <Host>
+      <StatusBar backgroundColor={themeColors.primary} />
+      <ScrollView
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <ReadStory story={story} storyPartIndex={partIndex} />
+        <ModalComments
+          userId={user!._id}
+          storyId={story._id}
+          partIndex={partIndex}
+          comments={story.parts[partIndex].comments}
+        />
+      </ScrollView>
+    </Host>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-  },
-});
-
-export default ReadStoryScreen;
+export default gestureHandlerRootHOC(ReadStoryScreen);
