@@ -46,11 +46,27 @@ export const deleteComment = async (
   return data as CommentResponse;
 };
 
+export const putComment = async (
+  storyId: string,
+  storyPartIndex: number,
+  commentIndex: number,
+  content: string,
+) => {
+  const {data} = await axios.put(
+    `/story/comment/${storyId}/${storyPartIndex}/${commentIndex}`,
+    {
+      content,
+    },
+  );
+  return data as CommentResponse;
+};
+
 const storyAPI = {
   getStory,
   addViewToStory,
   postComment,
   deleteComment,
+  putComment,
 };
 
 export default storyAPI;

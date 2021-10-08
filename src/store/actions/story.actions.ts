@@ -10,6 +10,7 @@ import {
   StoryActionTypes,
   StoryState,
   REMOVE_COMMENT_FROM_CURRENT_STORY,
+  EDIT_COMMENT_FROM_CURRENT_STORY,
 } from 'store/types/story.types';
 
 // Actions
@@ -109,6 +110,32 @@ const removeComment = (
   };
 };
 
+const editComment = (
+  storyId: string,
+  storyPartIndex: number,
+  commentIndex: number,
+  content: string,
+) => {
+  return async (dispatch: Dispatch<StoryActionTypes>) => {
+    try {
+      const {comment} = await storyAPI.putComment(
+        storyId,
+        storyPartIndex,
+        commentIndex,
+        content,
+      );
+      dispatch({
+        type: EDIT_COMMENT_FROM_CURRENT_STORY,
+        payload: {comment, storyPartIndex, commentIndex},
+      });
+    } catch (e) {
+      // Todo show an error
+      console.log(JSON.stringify(e));
+      console.log('Error adding comment');
+    }
+  };
+};
+
 export default {
   addViewToStory,
   updateCurrentStory,
@@ -116,4 +143,5 @@ export default {
   likeStoryAction,
   addComment,
   removeComment,
+  editComment,
 };

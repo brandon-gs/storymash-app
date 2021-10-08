@@ -1,48 +1,66 @@
 import React, {useState} from 'react';
-import {Box, Loader} from 'components';
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Input, useTheme} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Keyboard} from 'react-native';
+import {Box, Loader, UserAvatar} from 'components';
 import {useSelector} from 'react-redux';
+import {Input, useTheme} from 'react-native-elements';
+import {Keyboard, StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {StoryPartComment} from 'interfaces/story';
 import {useThunkDispatch} from 'hooks';
 import actions from 'store/actions';
-import {themeColors} from 'theme/theme';
 
-const NewComment = () => {
+interface ModalEditCommentProps {
+  comment: StoryPartComment;
+  commentIndex: number;
+  goBack: () => void;
+}
+
+const ModalEditComment = ({
+  comment: commentProp,
+  commentIndex,
+  goBack,
+}: ModalEditCommentProps) => {
   const dispatch = useThunkDispatch();
   const story = useSelector(state => state.story);
+  const user = useSelector(state => state.authentication.user);
   const {theme} = useTheme();
 
+  const [comment, setComment] = useState<string>(commentProp.content || '');
   const [loading, setLoading] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>('');
 
-  const handleLoader = (newState: boolean) => setLoading(newState);
+  const handleLoading = (newLoading: boolean) => setLoading(newLoading);
 
   const handleSubmitComment = async () => {
-    if (story) {
-      handleLoader(true);
-      await dispatch(
-        actions.story.addComment(story._id, story.currentPart, comment),
-      );
-      setComment('');
-      Keyboard.dismiss();
-      handleLoader(false);
-    }
+    handleLoading(true);
+    await dispatch(
+      actions.story.editComment(
+        story!._id,
+        story!.currentPart,
+        commentIndex,
+        comment,
+      ),
+    );
+    Keyboard.dismiss();
+    handleLoading(false);
+    goBack();
   };
 
   return (
-    <>
-      <Box direction="row" style={styles.inputBox} bg="#fafafa">
+    <Box px={1} py={1} direction="row">
+      <Box pt={1}>
+        <UserAvatar userImage={user!.image} size="medium" />
+      </Box>
+      <Box width="84%">
         <Input
-          placeholder="Escribe un comentario..."
+          placeholder="Edita tu comentario..."
+          autoFocus
           multiline
           value={comment}
           onChangeText={value => setComment(value)}
           containerStyle={styles.inputRootContainer}
           inputContainerStyle={styles.inputContainer}
-          onSubmitEditing={handleSubmitComment}
           rightIconContainerStyle={styles.rightIconContainerStyle}
+          onSubmitEditing={handleSubmitComment}
+          inputStyle={styles.inputStyle}
           rightIcon={
             loading ? (
               <Loader size={24} />
@@ -56,26 +74,21 @@ const NewComment = () => {
           }
         />
       </Box>
-    </>
+    </Box>
   );
 };
 
 const styles = StyleSheet.create({
-  inputBox: {
-    flex: 1,
-    alignItems: 'flex-end',
-    backgroundColor: '#fafafa',
-    maxHeight: 72,
-    borderTopColor: themeColors.border,
-    borderTopWidth: 1,
-  },
   inputRootContainer: {
-    height: 56,
-    marginBottom: 8,
+    height: 'auto',
+    marginBottom: 16,
   },
   inputContainer: {
     width: '100%',
     alignItems: 'flex-end',
+  },
+  inputStyle: {
+    paddingVertical: 0,
   },
   rightIconContainerStyle: {
     width: 40,
@@ -90,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewComment;
+export default ModalEditComment;

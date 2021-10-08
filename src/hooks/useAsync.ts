@@ -11,10 +11,16 @@ export default function useAsync(
   const handleLoading = (newLoading: boolean) => setLoading(newLoading);
 
   const handlePromise = async () => {
-    handleLoading(true);
-    await callback();
-    if (isMounted) {
-      handleLoading(false);
+    try {
+      handleLoading(true);
+      await callback();
+      if (isMounted) {
+        handleLoading(false);
+      }
+    } catch (e) {
+      if (isMounted) {
+        handleLoading(false);
+      }
     }
   };
 

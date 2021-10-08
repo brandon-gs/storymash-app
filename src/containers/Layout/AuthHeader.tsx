@@ -9,7 +9,7 @@ import defaultImage from 'assets/images/profile/default_profile.png';
 
 interface AuthHeaderProps extends BottomTabHeaderProps {}
 
-const ICON_SIZE = 32;
+const ICON_SIZE = 24;
 
 const AuthHeader = ({navigation}: AuthHeaderProps) => {
   const {
@@ -40,7 +40,7 @@ const AuthHeader = ({navigation}: AuthHeaderProps) => {
         />
       )}
       {!canGoBack && (
-        <StyledText color="white" fsize={3.5} fontVariant="black">
+        <StyledText color="white" fsize={3.2} fontVariant="black">
           Storymash
         </StyledText>
       )}

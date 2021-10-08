@@ -39,7 +39,7 @@ export const addCommentToStoryPart =
   (storyPartIdx: number, comment: StoryPartComment) =>
   (part: StoryPart, index: number): StoryPart => {
     if (index === storyPartIdx) {
-      return {...part, comments: part.comments.concat(comment)};
+      return {...part, comments: [comment, ...part.comments]};
     }
     return part;
   };
@@ -52,6 +52,23 @@ export const removeCommentFromStoryPart =
         comments: part.comments.filter(
           (_, currentCommentIdx) => currentCommentIdx !== commentIdx,
         ),
+      };
+    }
+    return part;
+  };
+
+export const editCommentFromStoryPart =
+  (partIdx: number, commentIdx: number, updatedComment: StoryPartComment) =>
+  (part: StoryPart, index: number) => {
+    if (index === partIdx) {
+      return {
+        ...part,
+        comments: part.comments.map((comment, commentIndex) => {
+          if (commentIndex === commentIdx) {
+            return updatedComment;
+          }
+          return comment;
+        }),
       };
     }
     return part;

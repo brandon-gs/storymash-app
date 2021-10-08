@@ -9,4 +9,6 @@ const axiosClient = axios.create({
   },
 });
 
+export const CancelToken = axios.CancelToken;
+
 export default axiosClient;

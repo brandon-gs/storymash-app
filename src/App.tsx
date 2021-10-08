@@ -10,6 +10,10 @@ import {persistor, store} from 'store/store';
 import theme from 'theme/theme';
 // Navigation
 import RootNavigation from 'navigation/RootNavigation';
+// Timeago
+import moment from 'moment';
+import 'moment/locale/es-mx';
+moment.locale('es-mx');
 
 const App = () => {
   return (

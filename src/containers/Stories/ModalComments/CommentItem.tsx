@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {themeColors} from 'theme/theme';
+import TimeAgo from 'react-native-timeago';
 import _ from 'lodash';
 
 interface CommentProps {
@@ -32,14 +33,14 @@ const Comment = ({
       </Box>
       <Box direction="column" style={styles.commentContent}>
         <Box direction="row" alignItems="center">
-          <StyledText fsize={2} fontVariant="semiBold" color="gray">
+          <StyledText fsize={2.1} fontVariant="bold" color="gray">
             {`${item.author.username} · `}
           </StyledText>
           <StyledText fsize={2} color="gray">
-            Hace un momento
+            <TimeAgo time={item.createdAt} interval={60000} />
           </StyledText>
         </Box>
-        <StyledText fsize={2.5}>{item.content}</StyledText>
+        <StyledText fsize={2.3}>{item.content}</StyledText>
       </Box>
 
       {isAuthor && (

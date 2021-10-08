@@ -18,6 +18,7 @@ import _ from 'lodash';
 import {useThunkDispatch} from 'hooks';
 import actions from 'store/actions';
 import EmptyComments from './EmptyComments';
+import ModalEditComment from './ModalEditComment';
 
 interface ModalCommentsProps {
   userId: string;
@@ -32,16 +33,25 @@ const ModalComments = ({
   comments = [],
   userId,
 }: ModalCommentsProps) => {
+  // TODO: refactor this hook in:
+  // [ref, open, close] = useModalize()
+  // [isVisible, open, close] = useModal()
+  // [flatListProps] = useComments
   const {
     modalizeRef,
     modalizeRefMenuComment,
+    modalizeRefEditComment,
     flatListProps,
-    deleteCommentModal,
     deleteButtonLoading,
+    deleteCommentModal,
     onOpen, // open modal comments
     openDeleteModal,
+    closeEditModal,
     closeDeleteModal,
+    closeMenuModal,
     handleDeleteComment,
+    openEditModal,
+    commentIdx,
   } = useModalComments({
     storyId,
     comments,
@@ -80,6 +90,9 @@ const ModalComments = ({
               iconProps={{
                 name: 'create-outline',
               }}
+              buttonProps={{
+                onPress: openEditModal,
+              }}
             />
             <ModalMenuItem
               title="Eliminar comentario"
@@ -101,6 +114,30 @@ const ModalComments = ({
             />
           </Box>
         </Modalize>
+        {/* Modal to edit a comment */}
+        <Modalize
+          ref={modalizeRefEditComment}
+          modalStyle={styles.modalStyle}
+          overlayStyle={styles.transparent}
+          scrollViewProps={{
+            keyboardShouldPersistTaps: 'always',
+            keyboardDismissMode: 'on-drag',
+          }}
+          HeaderComponent={
+            <HeaderModalComments
+              text="Editar comentario"
+              goBack={closeEditModal}
+            />
+          }>
+          <ModalEditComment
+            comment={comments[commentIdx]}
+            commentIndex={commentIdx}
+            goBack={() => {
+              closeEditModal();
+              closeMenuModal();
+            }}
+          />
+        </Modalize>
       </Portal>
     </>
   );
@@ -115,6 +152,9 @@ const styles = StyleSheet.create({
   modalStyle: {
     flex: 1,
     marginTop: 40,
+  },
+  transparent: {
+    backgroundColor: 'transparent',
   },
   commentOptionsModal: {
     position: 'absolute',
@@ -141,11 +181,13 @@ const useModalComments = ({
 
   const modalizeRef = useRef<Modalize>(null);
   const modalizeRefMenuComment = useRef<Modalize>(null);
+  const modalizeRefEditComment = useRef<Modalize>(null);
 
   const [commentIdx, setCommentIdx] = useState<number>(-1);
   const [deleteButtonLoading, setDeleteButtonLoading] =
     useState<boolean>(false);
   const [showCommentsLoader, setShowCommentsLoader] = useState<boolean>(true);
+
   const [deleteCommentModal, setDeleteCommentModal] = useState<boolean>(false);
 
   const handleDeleteButtonLoading = useCallback(
@@ -160,6 +202,24 @@ const useModalComments = ({
     setCommentIdx(currentCommentIdx);
     if (modalizeRefMenuComment.current) {
       modalizeRefMenuComment.current.open();
+    }
+  }, []);
+
+  const openEditModal = useCallback(() => {
+    if (modalizeRefEditComment.current) {
+      modalizeRefEditComment.current.open('top');
+    }
+  }, []);
+
+  const closeEditModal = useCallback(() => {
+    if (modalizeRefEditComment.current) {
+      modalizeRefEditComment.current.close('default');
+    }
+  }, []);
+
+  const closeMenuModal = useCallback(() => {
+    if (modalizeRefMenuComment.current) {
+      modalizeRefMenuComment.current.close();
     }
   }, []);
 
@@ -221,15 +281,20 @@ const useModalComments = ({
     }, [comments, renderItem, showCommentsLoader]);
 
   return {
+    commentIdx,
     modalizeRef,
     modalizeRefMenuComment,
+    modalizeRefEditComment,
     deleteButtonLoading,
     flatListProps,
     deleteCommentModal,
+    openEditModal,
+    closeEditModal,
     onOpen,
     handleDeleteComment,
     openDeleteModal,
     closeDeleteModal,
+    closeMenuModal,
   };
 };
 

@@ -27,6 +27,7 @@ export const themeColors = {
   },
   secondary: '#0984e3',
   disabledIcon: '#2d3436',
+  border: '#dae8e8',
 };
 
 // Create custom theme
