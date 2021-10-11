@@ -8,6 +8,8 @@ const modules = [
   '@react-native-community',
   '@react-navigation',
   'react-native-vector-icons',
+  'react-native-status-bar-height',
+  'react-native-timeago',
 ].join('|');
 
 module.exports = {
