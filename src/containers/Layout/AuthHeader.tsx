@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ImageSourcePropType} from 'react-native';
 import {Box, StyledText} from 'components';
 import {BottomTabHeaderProps} from '@react-navigation/bottom-tabs/lib/typescript/src/types';
@@ -18,15 +18,9 @@ const AuthHeader = ({navigation}: AuthHeaderProps) => {
   } = useSelector(state => state);
   const {theme} = useTheme();
 
-  const [canGoBack, setCanGoBack] = useState<boolean>(navigation.canGoBack());
-
   const avatarSource = getAvatarSource(user?.image);
 
   const styles = useStyles();
-
-  useEffect(() => {
-    setCanGoBack(navigation.canGoBack());
-  }, [navigation]);
 
   return (
     <Box
@@ -36,19 +30,9 @@ const AuthHeader = ({navigation}: AuthHeaderProps) => {
       justifyContent="space-between"
       alignItems="center"
       style={styles.container}>
-      {canGoBack && (
-        <Icon
-          name="chevron-back-outline"
-          size={ICON_SIZE}
-          color={theme.colors!.primary}
-          onPress={() => navigation.goBack()}
-        />
-      )}
-      {!canGoBack && (
-        <StyledText color="primary" fsize={3.5} fontVariant="black">
-          Storymash
-        </StyledText>
-      )}
+      <StyledText color="primary" fsize={3.5} fontVariant="black">
+        Storymash
+      </StyledText>
       <Box direction="row">
         <Box mx={0.5} px={1} py={1}>
           <Icon
