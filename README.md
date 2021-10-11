@@ -27,6 +27,7 @@ Create an env file like the next
 
 ```
 API_URL=http://SERVER_IP:SERVER_PORT/api/
+API_SECRET=MY_CUSTOM_API_SECRET
 ```
 
 You need download and run the API service from [this repo] (https://github.com/brandon-gs/storymash/)
