@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, StatusBar} from 'react-native';
 import {useAsync, useThunkDispatch} from 'hooks';
 import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {Loader} from 'components';
 import {ListAllStories} from 'containers';
+import {themeColors} from 'theme/theme';
 
 const AllStoriesScreen = () => {
   const dispatch = useThunkDispatch();
@@ -26,6 +27,7 @@ const AllStoriesScreen = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={themeColors.primary} />
       <ListAllStories hasNextPage={hasNextPage} />
     </View>
   );

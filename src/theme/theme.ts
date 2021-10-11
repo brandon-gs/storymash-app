@@ -1,15 +1,20 @@
 import {Theme} from 'react-native-elements';
 import {fontVariants} from './fonts';
 
+interface ColorFull {
+  light: string;
+  main: string;
+  dark: string;
+  contrastText: string;
+}
+
 // Extend theme with typescript
-interface ExtraColors {
+export interface ExtraColors {
   primaryLight: string;
-  pink: {
-    light: string;
-    main: string;
-    dark: string;
-  };
+  pink: ColorFull;
+  red: ColorFull;
   disabledIcon: string;
+  border: string;
 }
 
 declare module 'react-native-elements' {
@@ -24,6 +29,13 @@ export const themeColors = {
     light: '#f586e6',
     main: '#f368e0',
     dark: '#aa489c',
+    contrastText: '#000000',
+  },
+  red: {
+    dark: '#952122',
+    main: '#d63031',
+    light: '#de595a',
+    contrastText: '#FFFFFF',
   },
   secondary: '#0984e3',
   disabledIcon: '#2d3436',

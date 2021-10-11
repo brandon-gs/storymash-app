@@ -17,6 +17,7 @@ interface StorystoryProps extends ListRenderItemInfo<Story> {
   liked: boolean;
   onPress: (story: Story) => void;
   onPressLike: (story: Story) => Promise<void>;
+  goToProfile?: (authorUsername: string) => void;
 }
 
 const StoryItem = ({
@@ -24,11 +25,16 @@ const StoryItem = ({
   user,
   liked,
   index,
+  goToProfile,
   onPress,
   onPressLike,
 }: StorystoryProps) => {
   const margin = index === 0 ? 2 : 1;
   const isAuthor = user._id === item.author._id;
+
+  const goToProfileProp = goToProfile
+    ? () => goToProfile(item.author.username)
+    : undefined;
 
   return (
     <Box bg="white" mt={margin} mb={1} style={styles.container}>
@@ -37,7 +43,7 @@ const StoryItem = ({
         onPress={() => onPress(item)}
         style={styles.container}>
         <Box width="100%">
-          <CoverStory story={item} showChip />
+          <CoverStory story={item} showChip goToProfile={goToProfileProp} />
           <Box width="100%" mt={3} px={2}>
             <StyledText fontVariant="black" fsize={3}>
               {item.title}

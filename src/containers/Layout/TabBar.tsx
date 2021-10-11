@@ -24,13 +24,13 @@ const useStyles = makeStyles(theme => ({
   icon: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 8,
     paddingHorizontal: 22.6,
   },
 }));
 export const SIZE = width / 5 - 10.7;
 
-const ICON_SIZE = 26;
+const ICON_SIZE = 28;
 
 const Tabbar = ({navigation, state, descriptors}: BottomTabBarProps) => {
   const styles = useStyles();

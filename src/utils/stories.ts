@@ -1,3 +1,8 @@
+/**
+ * Helpers functions to avoid muttability in redux actions
+ * Some functions are repeated in different reducers
+ * like: stories, profile, story, etc
+ */
 import {LikeActions} from 'hooks/useLikeButton';
 import {Story, StoryPart, StoryPartComment} from 'interfaces/story';
 

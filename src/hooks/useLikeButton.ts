@@ -33,6 +33,14 @@ const useLikeButton = () => {
               user._id,
             ),
           );
+          dispatch(
+            actions.profile.likeProfileStory(
+              story._id,
+              storyPartIndex,
+              option,
+              user._id,
+            ),
+          );
           dispatch(actions.story.likeStoryAction(option, user._id));
           await axios.put(
             `/story/part/like/${option}/${story._id}/${storyPartIndex}`,

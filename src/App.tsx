@@ -13,6 +13,7 @@ import RootNavigation from 'navigation/RootNavigation';
 // Timeago
 import moment from 'moment';
 import 'moment/locale/es-mx';
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 moment.locale('es-mx');
 
 const App = () => {
@@ -31,4 +32,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default gestureHandlerRootHOC(App);

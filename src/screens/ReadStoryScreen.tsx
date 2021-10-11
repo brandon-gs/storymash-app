@@ -8,7 +8,6 @@ import {ReadStory, ModalComments} from 'containers';
 import {useSelector} from 'react-redux';
 import {Loader} from 'components';
 import {Host} from 'react-native-portalize';
-import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 import {themeColors} from 'theme/theme';
 
 const ReadStoryScreen = () => {
@@ -86,4 +85,4 @@ const ReadStoryScreen = () => {
   );
 };
 
-export default gestureHandlerRootHOC(ReadStoryScreen);
+export default ReadStoryScreen;

@@ -13,6 +13,7 @@ interface CoverStoryProps {
   showChip?: boolean;
   canGoBack?: boolean;
   isLastPart?: boolean;
+  goToProfile?: () => void;
   onPressGoBack?: () => void;
   onPressNextPart?: () => void;
 }
@@ -25,10 +26,17 @@ export default function CoverStory({
   showChip = false,
   isLastPart = true,
   canGoBack = false,
+  goToProfile,
   onPressGoBack = () => console.log('Change onPressGoBack prop'),
   onPressNextPart = () => console.log('Change onPressNextPart prop'),
 }: CoverStoryProps) {
   const isNew = story.totalParts <= 1;
+
+  const goToProfileProps = goToProfile
+    ? {
+        onPress: goToProfile,
+      }
+    : {};
 
   return (
     <>
@@ -64,8 +72,9 @@ export default function CoverStory({
       {showChip && (
         <Chip
           title={isNew ? 'Nueva historia' : 'Nueva parte'}
+          disabled
           containerStyle={styles.chipContainer}
-          buttonStyle={[
+          disabledStyle={[
             styles.chipButton,
             {
               backgroundColor: isNew
@@ -73,7 +82,7 @@ export default function CoverStory({
                 : themeColors.secondary,
             },
           ]}
-          titleStyle={styles.chipTitle}
+          disabledTitleStyle={styles.chipTitle}
         />
       )}
       {/* User info */}
@@ -82,12 +91,14 @@ export default function CoverStory({
         size="medium"
         userImage={story.author.image}
         containerStyle={styles.avatarImage}
+        {...goToProfileProps}
       />
       <StyledText
         style={styles.authorName}
         color="white"
         fontVariant="bold"
-        fontSize={fontSize}>
+        fontSize={fontSize}
+        {...goToProfileProps}>
         {story.author.username}
       </StyledText>
       {/* Button to go to the next part */}
@@ -122,6 +133,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   chipTitle: {
+    color: 'white',
     fontSize: 18,
   },
   coverImage: {

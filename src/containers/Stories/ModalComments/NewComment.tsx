@@ -37,6 +37,7 @@ const NewComment = () => {
         <Input
           placeholder="Escribe un comentario..."
           multiline
+          autoFocus
           value={comment}
           onChangeText={value => setComment(value)}
           containerStyle={styles.inputRootContainer}

@@ -14,7 +14,7 @@ export default function LikeButton({
   size = 32,
   ...props
 }: LikeButtonProps) {
-  const color = isAuthor ? themeColors.disabledIcon : themeColors.pink.main;
+  const color = isAuthor ? themeColors.disabledIcon : themeColors.pink.light;
   const name = liked || isAuthor ? 'heart' : 'heart-outline';
   return <Icon {...props} color={color} name={name} size={size} />;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import _ from 'lodash';
 import {StyledText, Box, ListStoryParts} from 'components';
 import {Story} from 'interfaces/story';
@@ -12,6 +12,10 @@ import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/core';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import actions from 'store/actions';
+import {
+  AuthStackRoutes,
+  ProfileScreenProp,
+} from 'navigation/AuthStackNavigation';
 
 export interface ReadStoryProps {
   story: Story;
@@ -24,7 +28,7 @@ function ReadStory({story, storyPartIndex}: ReadStoryProps) {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.authentication);
   const {theme} = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenProp>();
 
   const {addOrRemoveLike} = useLikeButton();
 
@@ -35,6 +39,12 @@ function ReadStory({story, storyPartIndex}: ReadStoryProps) {
 
   const part = story.parts[storyPartIndex];
 
+  const goToProfile = useCallback(() => {
+    navigation.navigate(AuthStackRoutes.Profile, {
+      profileUsername: story.author.username,
+    });
+  }, [navigation, story.author.username]);
+
   return (
     <Box bg="white">
       <CoverStory
@@ -42,6 +52,7 @@ function ReadStory({story, storyPartIndex}: ReadStoryProps) {
         fontSize={3}
         canGoBack={navigation.canGoBack()}
         isLastPart={isLastPart}
+        goToProfile={goToProfile}
         onPressGoBack={() => {
           navigation.goBack();
         }}

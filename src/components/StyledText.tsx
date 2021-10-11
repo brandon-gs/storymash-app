@@ -1,3 +1,9 @@
+import {
+  FontColorProps,
+  FontSize,
+  FontVariant,
+  TextAlign,
+} from 'interfaces/style';
 import React from 'react';
 import {StyleProp, TextProps, ViewStyle} from 'react-native';
 import {

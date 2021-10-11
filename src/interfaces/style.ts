@@ -1,8 +1,10 @@
+import {ExtraColors} from 'theme/theme';
+
 // Text align
-type TextAlign = 'auto' | 'left' | 'right' | 'center' | 'justify';
+export type TextAlign = 'auto' | 'left' | 'right' | 'center' | 'justify';
 
 // JustifyContent
-type JustifyContent =
+export type JustifyContent =
   | 'flex-start'
   | 'flex-end'
   | 'center'
@@ -11,7 +13,7 @@ type JustifyContent =
   | 'space-evenly';
 
 // Align Content
-type AlignContent =
+export type AlignContent =
   | 'flex-start'
   | 'flex-end'
   | 'center'
@@ -19,12 +21,22 @@ type AlignContent =
   | 'space-between'
   | 'space-around';
 
-type AlignType = 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+export type AlignType =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'stretch'
+  | 'baseline';
 
-type AlignItems = 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+export type AlignItems =
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'stretch'
+  | 'baseline';
 
 // Alignments
-interface Alignments {
+export interface Alignments {
   justifyContent: JustifyContent;
   alignContent: AlignContent;
   alignItems: AlignItems;
@@ -32,7 +44,7 @@ interface Alignments {
 }
 
 // Margins
-type MarginsType =
+export type MarginsType =
   | 'm'
   | 'mt'
   | 'mb'
@@ -48,7 +60,7 @@ type MarginsType =
   | 'marginX'
   | 'marginY';
 
-interface Margins {
+export interface Margins {
   m: number;
   mt: number;
   mb: number;
@@ -66,7 +78,7 @@ interface Margins {
 }
 
 // Paddings
-interface Paddings {
+export interface Paddings {
   p: number;
   pt: number;
   pb: number;
@@ -83,7 +95,7 @@ interface Paddings {
   paddingY: number;
 }
 
-type PaddingsType =
+export type PaddingsType =
   | 'p'
   | 'pt'
   | 'pb'
@@ -100,10 +112,10 @@ type PaddingsType =
   | 'paddingY';
 
 // Flex direction
-type FlexDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
+export type FlexDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 
 // Text font variant
-type FontVariant =
+export type FontVariant =
   | 'extraLight'
   | 'extraLightItalic'
   | 'light'
@@ -120,8 +132,7 @@ type FontVariant =
   | 'blackItalic';
 
 // Colors
-
-interface Colors {
+export interface Colors extends ExtraColors {
   readonly primary: string;
   readonly secondary: string;
   readonly white: string;
@@ -141,20 +152,20 @@ interface Colors {
   readonly divider: string;
 }
 
-interface BackgroundColorProps {
+export interface BackgroundColorProps {
   bg?: string;
   backgroundColor?: string;
   bgTheme?: keyof Colors;
   backgroundColorTheme?: keyof Colors;
 }
 
-interface FontColorProps {
+export interface FontColorProps {
   color?: string;
   colorTheme: keyof Colors;
 }
 
 // Font sizes
-interface FontSize {
+export interface FontSize {
   fontSize: number;
   fsize: number;
 }

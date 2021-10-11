@@ -1,3 +1,13 @@
+import {
+  AlignContent,
+  AlignItems,
+  Alignments,
+  BackgroundColorProps,
+  FlexDirection,
+  JustifyContent,
+  Margins,
+  Paddings,
+} from 'interfaces/style';
 import React from 'react';
 import {StyleProp, View, ViewProps, ViewStyle} from 'react-native';
 import {makeStyles, useTheme} from 'react-native-elements';

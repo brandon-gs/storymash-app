@@ -15,7 +15,7 @@ import NewComment from './NewComment';
 import HeaderModalComments from './HeaderModalComments';
 import ModalDeleteComment from './ModalDeleteComment';
 import _ from 'lodash';
-import {useThunkDispatch} from 'hooks';
+import {useLoader, useThunkDispatch} from 'hooks';
 import actions from 'store/actions';
 import EmptyComments from './EmptyComments';
 import ModalEditComment from './ModalEditComment';
@@ -145,7 +145,6 @@ const ModalComments = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     borderTopColor: '#000',
     borderWidth: 0.2,
   },
@@ -186,7 +185,11 @@ const useModalComments = ({
   const [commentIdx, setCommentIdx] = useState<number>(-1);
   const [deleteButtonLoading, setDeleteButtonLoading] =
     useState<boolean>(false);
-  const [showCommentsLoader, setShowCommentsLoader] = useState<boolean>(true);
+  const [
+    showCommentsLoader,
+    enableShowCommentsLoader,
+    disableShowCommentsLoader,
+  ] = useLoader(true);
 
   const [deleteCommentModal, setDeleteCommentModal] = useState<boolean>(false);
 
@@ -241,9 +244,9 @@ const useModalComments = ({
   ]);
 
   const onOpen = useCallback(() => {
+    enableShowCommentsLoader();
     modalizeRef.current?.open('top');
-    setShowCommentsLoader(true);
-  }, []);
+  }, [enableShowCommentsLoader]);
 
   const renderItem = useCallback(
     (props: ListRenderItemInfo<StoryPartComment>) => {
@@ -275,10 +278,10 @@ const useModalComments = ({
             <StyledText fsize={0} />
           ),
         ListEmptyComponent: EmptyComments,
-        onEndReached: () => setShowCommentsLoader(false),
+        onEndReached: () => disableShowCommentsLoader(),
         showsVerticalScrollIndicator: false,
       };
-    }, [comments, renderItem, showCommentsLoader]);
+    }, [comments, renderItem, showCommentsLoader, disableShowCommentsLoader]);
 
   return {
     commentIdx,

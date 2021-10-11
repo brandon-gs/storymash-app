@@ -25,7 +25,7 @@ const HeaderModalComments = ({
           onPress={goBack}
         />
       )}
-      <StyledText fsize={2.6} fontVariant="semiBold">
+      <StyledText fsize={2.6} fontVariant="semiBold" colorTheme="disabledIcon">
         {text ? text : `Comentarios (${commentsCount})`}
       </StyledText>
     </Box>

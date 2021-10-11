@@ -1,11 +1,10 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {Box} from 'components';
-import {useThunkDispatch} from 'hooks';
+import {useLoader, useThunkDispatch} from 'hooks';
 import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
-import StoryItem from './StoryCardItem';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'interfaces/story';
 import useLikeButton from 'hooks/useLikeButton';
@@ -14,17 +13,19 @@ import {
   ProfileScreenProp,
   ReadStoryScreenProp,
 } from 'navigation/AuthStackNavigation';
-import EmptyStories from './EmptyStories';
+import {EmptyStories, StoryCardItem} from 'containers';
+import {User} from 'interfaces/user';
+import InfoProfile from './InfoProfile';
 
-export interface ListStoriesProps {
-  hasNextPage: boolean;
+export interface StoriesProfileProps {
+  profile: User;
 }
 
-function ListAllStories({hasNextPage}: ListStoriesProps) {
+function StoriesProfile({profile}: StoriesProfileProps) {
   const navigation = useNavigation<ReadStoryScreenProp | ProfileScreenProp>();
   const dispatch = useThunkDispatch();
   const user = useSelector(state => state.authentication.user);
-  const stories = useSelector(state => state.stories.docs);
+  const stories = useSelector(state => state.profile.stories);
   const {theme} = useTheme();
 
   const keyExtractor = useCallback((item: Story) => item._id, []);
@@ -33,26 +34,13 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
   const {addOrRemoveLike} = useLikeButton();
 
   // State
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const enableLoading = () => setLoading(true);
-  const disableLoading = () => setLoading(false);
-  const enableRefresh = () => setRefreshing(true);
-  const disableRefresh = () => setRefreshing(false);
+  const [refreshing, enableRefresh, disableRefresh] = useLoader(false);
+  const [loading, enableLoading, disableLoading] = useLoader(false);
 
   const handleItemPress = useCallback(
     (story: Story) => {
       navigation.navigate(AuthStackRoutes.ReadStory, {
         storyId: story._id,
-      });
-    },
-    [navigation],
-  );
-
-  const handleGoToProfile = useCallback(
-    (authorUsername: string) => {
-      navigation.navigate(AuthStackRoutes.Profile, {
-        profileUsername: authorUsername,
       });
     },
     [navigation],
@@ -70,12 +58,11 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
   const renderItem = (props: ListRenderItemInfo<Story>) => {
     const liked = props.item.parts[0].likes.includes(user?._id || '');
     return user ? (
-      <StoryItem
+      <StoryCardItem
         user={user}
         liked={liked}
         onPress={handleItemPress}
         onPressLike={handleButtonLikePress}
-        goToProfile={handleGoToProfile}
         {...props}
       />
     ) : null;
@@ -91,22 +78,24 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
 
   return (
     <FlatList
-      data={stories}
+      data={stories.docs}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
+      ListHeaderComponent={<InfoProfile profile={profile} />}
       ListEmptyComponent={EmptyStories}
       onRefresh={() => {
         enableRefresh();
         // Do an api call to page 0 when do onRefresh
-        dispatch(actions.stories.asyncUpdateDataStories(0));
+        dispatch(actions.profile.setProfile(profile.username));
+        dispatch(actions.profile.setProfileStories(profile.username, 0));
         disableRefresh();
       }}
       onEndReached={() => {
-        if (hasNextPage) {
+        if (stories.hasNextPage) {
           enableLoading();
-          dispatch(actions.stories.asyncUpdateDataStories());
+          dispatch(actions.profile.setProfileStories(profile.username));
           disableLoading();
         }
       }}
@@ -114,4 +103,4 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
   );
 }
 
-export default ListAllStories;
+export default StoriesProfile;
