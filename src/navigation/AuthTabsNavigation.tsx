@@ -4,6 +4,7 @@ import {AuthHeader, TabBar} from 'containers';
 import {
   AllStoriesScreen,
   FavoriteStoriesScreen,
+  PlankStoriesScreen,
   RankStoriesScreen,
 } from 'screens';
 
@@ -35,7 +36,7 @@ const AuthTabsNavigation = () => {
         tabBarShowLabel: false,
       }}>
       <Tab.Screen name={AuthTabsRoutes.Home} component={AllStoriesScreen} />
-      <Tab.Screen name={AuthTabsRoutes.Plank} component={AllStoriesScreen} />
+      <Tab.Screen name={AuthTabsRoutes.Plank} component={PlankStoriesScreen} />
       <Tab.Screen
         name={AuthTabsRoutes.CreateStory}
         component={AllStoriesScreen}

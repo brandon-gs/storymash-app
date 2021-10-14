@@ -17,6 +17,9 @@ import EmptyStories from './EmptyStories';
 import actions from 'store/actions';
 
 export interface ListStoriesProps {
+  EmptyComponent?:
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   stories: Story[];
   hasNextPage: boolean;
   onRefresh: () => Promise<void> | void;
@@ -24,6 +27,7 @@ export interface ListStoriesProps {
 }
 
 function ListStories({
+  EmptyComponent = EmptyStories,
   hasNextPage,
   stories,
   onRefresh,
@@ -105,10 +109,7 @@ function ListStories({
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
       ListEmptyComponent={
-        <EmptyStories
-          title="No tienes historias favoritas"
-          onRefresh={onRefresh}
-        />
+        EmptyComponent ? EmptyComponent : <EmptyStories onRefresh={onRefresh} />
       }
       onRefresh={async () => {
         enableRefresh();

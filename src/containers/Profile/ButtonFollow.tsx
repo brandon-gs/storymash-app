@@ -36,21 +36,22 @@ function useButtonFollow() {
   const isOwnProfile = user!._id === profile!._id;
   const isFollower = profile!.followers.includes(user!._id);
 
-  const followUser = useCallback(() => {
-    dispatch(actions.profile.followUser());
+  const followUser = useCallback(async () => {
+    await dispatch(actions.profile.followUser());
   }, [dispatch]);
 
-  const unfollowUser = useCallback(() => {
-    dispatch(actions.profile.unfollowUser());
+  const unfollowUser = useCallback(async () => {
+    await dispatch(actions.profile.unfollowUser());
   }, [dispatch]);
 
-  const handlePress = useCallback(() => {
+  const handlePress = useCallback(async () => {
     if (!isFollower) {
-      followUser();
+      await followUser();
     } else {
-      unfollowUser();
+      await unfollowUser();
     }
-  }, [isFollower, followUser, unfollowUser]);
+    await dispatch(actions.plank.getPlankStories(0));
+  }, [dispatch, isFollower, followUser, unfollowUser]);
 
   return {
     isOwnProfile,

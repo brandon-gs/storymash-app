@@ -1,5 +1,6 @@
 import {AuthState} from './types/auth.types';
 import {FavoritesStoriesState} from './types/favorites.types';
+import {PlankStoriesState} from './types/plank.types';
 import {ProfileState} from './types/profile.types';
 import {RankStoriesState} from './types/rank.types';
 import {StoriesState} from './types/stories.types';
@@ -12,6 +13,7 @@ export interface RootState {
   profile: ProfileState;
   rank: RankStoriesState;
   favorites: FavoritesStoriesState;
+  plank: PlankStoriesState;
 }
 
 declare module 'react-redux' {

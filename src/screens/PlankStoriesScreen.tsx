@@ -7,25 +7,25 @@ import {Loader} from 'components';
 import {EmptyStories, ListStories} from 'containers';
 import {themeColors} from 'theme/theme';
 
-const FavoritesStoriesScreen = () => {
+const PlankStoriesScreen = () => {
   const dispatch = useThunkDispatch();
 
   // Redux state
-  const docs = useSelector(state => state.favorites.docs);
-  const hasNextPage = useSelector(state => state.favorites.hasNextPage);
+  const docs = useSelector(state => state.plank.docs);
+  const hasNextPage = useSelector(state => state.plank.hasNextPage);
 
   const onRefresh = useCallback(async () => {
-    await dispatch(actions.favorites.getFavoritesStories(0));
+    await dispatch(actions.plank.getPlankStories(0));
   }, [dispatch]);
 
   const onEndReached = useCallback(async () => {
-    await dispatch(actions.favorites.getFavoritesStories());
+    await dispatch(actions.plank.getPlankStories());
   }, [dispatch]);
 
   // Get stories on the first render and when has 0 docs
   const {loading} = useAsync(async () => {
     if (docs.length === 0) {
-      await dispatch(actions.favorites.getFavoritesStories());
+      await dispatch(actions.plank.getPlankStories());
     }
   }, true);
 
@@ -39,7 +39,7 @@ const FavoritesStoriesScreen = () => {
       <ListStories
         EmptyComponent={
           <EmptyStories
-            title="No tienes historias favoritas"
+            title="Aún no sigues a ningún usuario"
             onRefresh={onRefresh}
           />
         }
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FavoritesStoriesScreen;
+export default PlankStoriesScreen;

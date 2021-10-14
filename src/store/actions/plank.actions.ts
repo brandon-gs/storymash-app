@@ -1,29 +1,29 @@
-import * as favoritesAPI from 'api/favorites';
+import * as plankAPI from 'api/plank';
 import {LikeActions} from 'hooks/useLikeButton';
 import {Dispatch} from 'redux';
 import {RootState} from 'store/types';
 import {
-  FavoritesStoriesActionTypes,
-  LIKE_FAVORITE_STORY,
-  SET_FAVORITES_STORIES,
-} from 'store/types/favorites.types';
+  PlankStoriesActionTypes,
+  LIKE_PLANK_STORY,
+  SET_PLANK_STORIES,
+} from 'store/types/plank.types';
 
-export const getFavoritesStories = (page = -1, limit = -1) => {
+export const getPlankStories = (page = -1, limit = -1) => {
   return async (
-    dispatch: Dispatch<FavoritesStoriesActionTypes>,
+    dispatch: Dispatch<PlankStoriesActionTypes>,
     getState: () => RootState,
   ) => {
-    const prevDataRankStories = getState().favorites;
+    const prevDataRankStories = getState().plank;
     try {
       const currentPage = page >= 0 ? page : prevDataRankStories.page;
       const currentLimit = limit >= 0 ? limit : prevDataRankStories.limit;
-      const favoritesStoriesPagination = await favoritesAPI.getFavoritesStories(
+      const plankStoriesPagination = await plankAPI.getPlankStories(
         currentLimit,
         currentPage,
       );
       dispatch({
-        type: SET_FAVORITES_STORIES,
-        payload: {data: favoritesStoriesPagination},
+        type: SET_PLANK_STORIES,
+        payload: {data: plankStoriesPagination},
       });
     } catch (e) {
       console.log('Error getting rank stories');
@@ -40,7 +40,7 @@ export const likeStoryAction = (
 ) => {
   return (dispatch: any) => {
     dispatch({
-      type: LIKE_FAVORITE_STORY,
+      type: LIKE_PLANK_STORY,
       payload: {
         storyId,
         storyPartIndex,
