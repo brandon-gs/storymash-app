@@ -56,6 +56,14 @@ const useLikeButton = () => {
               user._id,
             ),
           );
+          dispatch(
+            actions.plank.likeStoryAction(
+              story._id,
+              storyPartIndex,
+              option,
+              user._id,
+            ),
+          );
           dispatch(actions.story.likeStoryAction(option, user._id));
           await axios.put(
             `/story/part/like/${option}/${story._id}/${storyPartIndex}`,
@@ -65,7 +73,7 @@ const useLikeButton = () => {
           );
           // TODO: Create favorites reducer to add the story when user press like
           // TODO: Create profile reducer to update profile points, etc, when add like on her profile screen
-          dispatch(actions.favorites.getFavoritesStories());
+          await dispatch(actions.favorites.getFavoritesStories(0));
           // dispatch(actions.updateProfile(data.author));
         } catch (error) {
           // TODO: Create a reducer to create a global Alert
