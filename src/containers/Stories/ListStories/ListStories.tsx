@@ -1,11 +1,9 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {Box} from 'components';
-import {useThunkDispatch} from 'hooks';
+import {useLoader} from 'hooks';
 import {useSelector} from 'react-redux';
-import actions from 'store/actions';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
-import StoryItem from './StoryCardItem';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'interfaces/story';
 import useLikeButton from 'hooks/useLikeButton';
@@ -14,18 +12,26 @@ import {
   ProfileScreenProp,
   ReadStoryScreenProp,
 } from 'navigation/AuthStackNavigation';
+import StoryItem from './StoryCardItem';
 import EmptyStories from './EmptyStories';
 
 export interface ListStoriesProps {
+  stories: Story[];
   hasNextPage: boolean;
+  onRefresh: () => Promise<void> | void;
+  onEndReached: () => Promise<void> | void;
 }
 
-function ListAllStories({hasNextPage}: ListStoriesProps) {
-  const navigation = useNavigation<ReadStoryScreenProp | ProfileScreenProp>();
-  const dispatch = useThunkDispatch();
-  const user = useSelector(state => state.authentication.user);
-  const stories = useSelector(state => state.stories.docs);
+function ListStories({
+  hasNextPage,
+  stories,
+  onRefresh,
+  onEndReached,
+}: ListStoriesProps) {
   const {theme} = useTheme();
+  const navigation = useNavigation<ReadStoryScreenProp | ProfileScreenProp>();
+
+  const user = useSelector(state => state.authentication.user);
 
   const keyExtractor = useCallback((item: Story) => item._id, []);
 
@@ -33,13 +39,10 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
   const {addOrRemoveLike} = useLikeButton();
 
   // State
-  const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
-  const enableLoading = () => setLoading(true);
-  const disableLoading = () => setLoading(false);
-  const enableRefresh = () => setRefreshing(true);
-  const disableRefresh = () => setRefreshing(false);
+  const [refreshing, enableRefresh, disableRefresh] = useLoader(false);
+  const [loading, enableLoading, disableLoading] = useLoader(false);
 
+  // Redirect to read story screen
   const handleItemPress = useCallback(
     (story: Story) => {
       navigation.navigate(AuthStackRoutes.ReadStory, {
@@ -49,6 +52,7 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
     [navigation],
   );
 
+  // Redirect to profile screen
   const handleGoToProfile = useCallback(
     (authorUsername: string) => {
       navigation.navigate(AuthStackRoutes.Profile, {
@@ -58,6 +62,7 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
     [navigation],
   );
 
+  // Add or remove like in a story
   const handleButtonLikePress = useCallback(
     async (story: Story) => {
       // Default use the part 0 because always render it
@@ -96,17 +101,17 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
       keyExtractor={keyExtractor}
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
-      ListEmptyComponent={EmptyStories}
-      onRefresh={() => {
+      ListEmptyComponent={<EmptyStories onRefresh={onRefresh} />}
+      onRefresh={async () => {
         enableRefresh();
         // Do an api call to page 0 when do onRefresh
-        dispatch(actions.stories.asyncUpdateDataStories(0));
+        await onRefresh();
         disableRefresh();
       }}
-      onEndReached={() => {
+      onEndReached={async () => {
         if (hasNextPage) {
           enableLoading();
-          dispatch(actions.stories.asyncUpdateDataStories());
+          await onEndReached();
           disableLoading();
         }
       }}
@@ -114,4 +119,4 @@ function ListAllStories({hasNextPage}: ListStoriesProps) {
   );
 }
 
-export default ListAllStories;
+export default ListStories;

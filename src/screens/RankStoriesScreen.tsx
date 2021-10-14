@@ -7,25 +7,25 @@ import {Loader} from 'components';
 import {ListStories} from 'containers';
 import {themeColors} from 'theme/theme';
 
-const AllStoriesScreen = () => {
+const RankStoriesScreen = () => {
   const dispatch = useThunkDispatch();
 
   // Redux state
-  const docs = useSelector(state => state.stories.docs);
-  const hasNextPage = useSelector(state => state.stories.hasNextPage);
+  const docs = useSelector(state => state.rank.docs);
+  const hasNextPage = useSelector(state => state.rank.hasNextPage);
 
   const onRefresh = useCallback(async () => {
-    await dispatch(actions.stories.asyncUpdateDataStories(0));
+    await dispatch(actions.rank.getRankStories(0));
   }, [dispatch]);
 
   const onEndReached = useCallback(async () => {
-    await dispatch(actions.stories.asyncUpdateDataStories());
+    await dispatch(actions.rank.getRankStories());
   }, [dispatch]);
 
   // Get stories on the first render and when has 0 docs
   const {loading} = useAsync(async () => {
     if (docs.length === 0) {
-      await dispatch(actions.stories.asyncUpdateDataStories());
+      await dispatch(actions.rank.getRankStories());
     }
   }, true);
 
@@ -39,8 +39,8 @@ const AllStoriesScreen = () => {
       <ListStories
         hasNextPage={hasNextPage}
         stories={docs}
-        onRefresh={onRefresh}
         onEndReached={onEndReached}
+        onRefresh={onRefresh}
       />
     </View>
   );
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AllStoriesScreen;
+export default RankStoriesScreen;

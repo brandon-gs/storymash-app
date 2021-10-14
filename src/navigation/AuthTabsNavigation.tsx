@@ -2,6 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {AllStoriesScreen} from 'screens';
 import {AuthHeader, TabBar} from 'containers';
+import RankStoriesScreen from 'screens/RankStoriesScreen';
 
 export enum AuthTabsRoutes {
   Home = 'Home',
@@ -60,7 +61,7 @@ const AuthTabsNavigation = () => {
       />
       <Tab.Screen
         name={AuthTabsRoutes.Rank}
-        component={AllStoriesScreen}
+        component={RankStoriesScreen}
         options={{
           unmountOnBlur: true,
         }}

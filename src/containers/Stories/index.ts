@@ -1,4 +1,5 @@
 export {default as ListAllStories} from './ListAllStories/ListAllStories';
+export {default as ListStories} from './ListStories/ListStories';
 export {default as StoryCardItem} from './ListAllStories/StoryCardItem';
 export {default as EmptyStories} from './ListAllStories/EmptyStories';
 export {default as CoverStory} from './CoverStory';
