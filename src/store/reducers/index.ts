@@ -5,6 +5,7 @@ import stories from './stories.reducer';
 import story from './story.reducer';
 import profile from './profile.reducer';
 import rank from './rank.reducer';
+import favorites from './favorites.reducer';
 
 export default combineReducers({
   authentication,
@@ -12,4 +13,5 @@ export default combineReducers({
   story,
   profile,
   rank,
+  favorites,
 });

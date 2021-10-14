@@ -1,8 +1,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {AllStoriesScreen} from 'screens';
 import {AuthHeader, TabBar} from 'containers';
-import RankStoriesScreen from 'screens/RankStoriesScreen';
+import {
+  AllStoriesScreen,
+  FavoriteStoriesScreen,
+  RankStoriesScreen,
+} from 'screens';
 
 export enum AuthTabsRoutes {
   Home = 'Home',
@@ -39,7 +42,7 @@ const AuthTabsNavigation = () => {
       />
       <Tab.Screen
         name={AuthTabsRoutes.Favorites}
-        component={AllStoriesScreen}
+        component={FavoriteStoriesScreen}
       />
       <Tab.Screen name={AuthTabsRoutes.Rank} component={RankStoriesScreen} />
     </Tab.Navigator>

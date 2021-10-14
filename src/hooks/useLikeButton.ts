@@ -23,7 +23,6 @@ const useLikeButton = () => {
           : '';
       if (user) {
         try {
-          // TODO: Move all this code to an action
           // Update button icon
           dispatch(
             actions.stories.likeStoryAction(
@@ -41,6 +40,22 @@ const useLikeButton = () => {
               user._id,
             ),
           );
+          dispatch(
+            actions.rank.likeStoryAction(
+              story._id,
+              storyPartIndex,
+              option,
+              user._id,
+            ),
+          );
+          dispatch(
+            actions.favorites.likeStoryAction(
+              story._id,
+              storyPartIndex,
+              option,
+              user._id,
+            ),
+          );
           dispatch(actions.story.likeStoryAction(option, user._id));
           await axios.put(
             `/story/part/like/${option}/${story._id}/${storyPartIndex}`,
@@ -50,7 +65,7 @@ const useLikeButton = () => {
           );
           // TODO: Create favorites reducer to add the story when user press like
           // TODO: Create profile reducer to update profile points, etc, when add like on her profile screen
-          // dispatch(actions.asyncUpdateFavorites(token));
+          dispatch(actions.favorites.getFavoritesStories());
           // dispatch(actions.updateProfile(data.author));
         } catch (error) {
           // TODO: Create a reducer to create a global Alert

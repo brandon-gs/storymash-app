@@ -1,28 +1,28 @@
-import * as rankAPI from 'api/rank';
+import * as favoritesAPI from 'api/favorites';
 import {LikeActions} from 'hooks/useLikeButton';
 import {Dispatch} from 'redux';
 import {RootState} from 'store/types';
 import {
-  LIKE_RANK_STORY,
-  RankStoriesActionTypes,
-  SET_RANK_STORIES,
-} from 'store/types/rank.types';
+  FavoritesStoriesActionTypes,
+  LIKE_FAVORITE_STORY,
+  SET_FAVORITES_STORIES,
+} from 'store/types/favorites.types';
 
-export const getRankStories = (page = -1, limit = -1) => {
+export const getFavoritesStories = (page = -1, limit = -1) => {
   return async (
-    dispatch: Dispatch<RankStoriesActionTypes>,
+    dispatch: Dispatch<FavoritesStoriesActionTypes>,
     getState: () => RootState,
   ) => {
     const prevDataRankStories = getState().rank;
     try {
       const currentPage = page >= 0 ? page : prevDataRankStories.page;
       const currentLimit = limit >= 0 ? limit : prevDataRankStories.limit;
-      const rankStoriesPagination = await rankAPI.getRankStories(
+      const rankStoriesPagination = await favoritesAPI.getFavoritesStories(
         currentLimit,
         currentPage,
       );
       dispatch({
-        type: SET_RANK_STORIES,
+        type: SET_FAVORITES_STORIES,
         payload: {data: rankStoriesPagination},
       });
     } catch (e) {
@@ -40,7 +40,7 @@ export const likeStoryAction = (
 ) => {
   return (dispatch: any) => {
     dispatch({
-      type: LIKE_RANK_STORY,
+      type: LIKE_FAVORITE_STORY,
       payload: {
         storyId,
         storyPartIndex,

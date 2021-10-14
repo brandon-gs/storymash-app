@@ -1,12 +1,12 @@
 import {
-  LIKE_RANK_STORY,
-  RankStoriesActionTypes,
-  RankStoriesState,
-  SET_RANK_STORIES,
-} from 'store/types/rank.types';
+  FavoritesStoriesActionTypes,
+  FavoritesStoriesState,
+  LIKE_FAVORITE_STORY,
+  SET_FAVORITES_STORIES,
+} from 'store/types/favorites.types';
 import {addOrRemoveLikeMap} from 'utils/stories';
 
-const initialRankStoriesState: RankStoriesState = {
+const initialRankStoriesState: FavoritesStoriesState = {
   docs: [],
   totalDocs: 0,
   offset: 0,
@@ -20,15 +20,15 @@ const initialRankStoriesState: RankStoriesState = {
   nextPage: 1,
 };
 
-export default function rankStoriesReducer(
+export default function favoritesStoriesReducer(
   state = initialRankStoriesState,
-  action: RankStoriesActionTypes,
-): RankStoriesState {
+  action: FavoritesStoriesActionTypes,
+): FavoritesStoriesState {
   switch (action.type) {
-    case SET_RANK_STORIES: {
+    case SET_FAVORITES_STORIES: {
       return action.payload.data;
     }
-    case LIKE_RANK_STORY: {
+    case LIKE_FAVORITE_STORY: {
       const {option, storyId, storyPartIndex, userId} = action.payload;
 
       if (option !== 'add' && option !== 'remove') {

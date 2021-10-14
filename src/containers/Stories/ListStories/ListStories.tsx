@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {Box} from 'components';
 import {useLoader} from 'hooks';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
@@ -14,6 +14,7 @@ import {
 } from 'navigation/AuthStackNavigation';
 import StoryItem from './StoryCardItem';
 import EmptyStories from './EmptyStories';
+import actions from 'store/actions';
 
 export interface ListStoriesProps {
   stories: Story[];
@@ -29,6 +30,7 @@ function ListStories({
   onEndReached,
 }: ListStoriesProps) {
   const {theme} = useTheme();
+  const dispatch = useDispatch();
   const navigation = useNavigation<ReadStoryScreenProp | ProfileScreenProp>();
 
   const user = useSelector(state => state.authentication.user);
@@ -67,9 +69,10 @@ function ListStories({
     async (story: Story) => {
       // Default use the part 0 because always render it
       const storyPartIndex = 0;
+      dispatch(actions.story.updateCurrentPartIndex(storyPartIndex));
       await addOrRemoveLike(story, storyPartIndex);
     },
-    [addOrRemoveLike],
+    [dispatch, addOrRemoveLike],
   );
 
   const renderItem = (props: ListRenderItemInfo<Story>) => {
@@ -101,7 +104,12 @@ function ListStories({
       keyExtractor={keyExtractor}
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
-      ListEmptyComponent={<EmptyStories onRefresh={onRefresh} />}
+      ListEmptyComponent={
+        <EmptyStories
+          title="No tienes historias favoritas"
+          onRefresh={onRefresh}
+        />
+      }
       onRefresh={async () => {
         enableRefresh();
         // Do an api call to page 0 when do onRefresh
