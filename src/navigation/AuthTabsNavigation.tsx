@@ -31,41 +31,17 @@ const AuthTabsNavigation = () => {
         tabBarHideOnKeyboard: true,
         tabBarShowLabel: false,
       }}>
-      <Tab.Screen
-        name={AuthTabsRoutes.Home}
-        component={AllStoriesScreen}
-        options={{
-          unmountOnBlur: true,
-        }}
-      />
-      <Tab.Screen
-        name={AuthTabsRoutes.Plank}
-        component={AllStoriesScreen}
-        options={{
-          unmountOnBlur: true,
-        }}
-      />
+      <Tab.Screen name={AuthTabsRoutes.Home} component={AllStoriesScreen} />
+      <Tab.Screen name={AuthTabsRoutes.Plank} component={AllStoriesScreen} />
       <Tab.Screen
         name={AuthTabsRoutes.CreateStory}
         component={AllStoriesScreen}
-        options={{
-          unmountOnBlur: true,
-        }}
       />
       <Tab.Screen
         name={AuthTabsRoutes.Favorites}
         component={AllStoriesScreen}
-        options={{
-          unmountOnBlur: true,
-        }}
       />
-      <Tab.Screen
-        name={AuthTabsRoutes.Rank}
-        component={RankStoriesScreen}
-        options={{
-          unmountOnBlur: true,
-        }}
-      />
+      <Tab.Screen name={AuthTabsRoutes.Rank} component={RankStoriesScreen} />
     </Tab.Navigator>
   );
 };
