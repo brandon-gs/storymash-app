@@ -5,8 +5,8 @@ import {Story} from 'interfaces/story';
 import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
 import CoverStory, {COVER_SIZE} from './CoverStory';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {LikeButton} from 'components';
-import useLikeButton from 'hooks/useLikeButton';
+import {ButtonLike} from 'components';
+import useLikeButton from 'hooks/useButtonLike';
 import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/core';
@@ -115,7 +115,7 @@ function ReadStory({story, storyPartIndex}: ReadStoryProps) {
             onPress={async () => await addOrRemoveLike(story, storyPartIndex)}
             disabled={isAuthor}>
             <Box direction="row" pr={2}>
-              <LikeButton isAuthor={isAuthor} liked={liked} />
+              <ButtonLike isAuthor={isAuthor} liked={liked} />
               <StyledText>{part.likes.length}</StyledText>
             </Box>
           </TouchableOpacity>

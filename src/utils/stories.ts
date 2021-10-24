@@ -3,7 +3,7 @@
  * Some functions are repeated in different reducers
  * like: stories, profile, story, etc
  */
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Story, StoryPart, StoryPartComment} from 'interfaces/story';
 
 export const addOrRemoveLikeMap =

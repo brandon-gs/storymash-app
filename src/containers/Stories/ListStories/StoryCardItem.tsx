@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import {TouchableOpacity, ListRenderItemInfo, StyleSheet} from 'react-native';
 import {Box, StyledText} from 'components';
-import {LikeButton} from 'components';
+import {ButtonLike} from 'components';
 import {Chip} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CoverStory from '../CoverStory';
@@ -31,6 +31,8 @@ const StoryItem = ({
 }: StorystoryProps) => {
   const margin = index === 0 ? 2 : 1;
   const isAuthor = user._id === item.author._id;
+
+  const totalParts = item.totalParts === 0 ? 1 : item.totalParts;
 
   const goToProfileProp = goToProfile
     ? () => goToProfile(item.author.username)
@@ -74,9 +76,9 @@ const StoryItem = ({
                 name="documents-outline"
                 size={ICON_SIZE}
               />
-              <StyledText fsize={2.1}>{`${item.totalParts} ${getPlural(
+              <StyledText fsize={2.1}>{`${totalParts} ${getPlural(
                 'parte',
-                item.totalParts,
+                totalParts,
               )}`}</StyledText>
             </Box>
           </Box>
@@ -123,7 +125,7 @@ const StoryItem = ({
             direction="row"
             py={1.5}
             width="100%">
-            <LikeButton isAuthor={isAuthor} liked={liked} size={ICON_SIZE} />
+            <ButtonLike isAuthor={isAuthor} liked={liked} size={ICON_SIZE} />
             <StyledText fsize={2.1}>
               {`${item.totalLikes} ${getPlural('like', item.totalLikes)}`}
             </StyledText>

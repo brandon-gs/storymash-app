@@ -7,12 +7,17 @@ import {Avatar, makeStyles, useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 import defaultImage from 'assets/images/profile/default_profile.png';
 import {AuthStackRoutes} from 'navigation/AuthStackNavigation';
+import {SearchButton} from 'containers/Search';
+import {NativeStackHeaderProps} from '@react-navigation/native-stack/lib/typescript/src/types';
 
-interface AuthHeaderProps extends BottomTabHeaderProps {}
+type AuthHeaderTabsProps = BottomTabHeaderProps;
+type AuthHeaderStackProps = NativeStackHeaderProps;
 
 const ICON_SIZE = 28;
 
-const AuthHeader = ({navigation}: AuthHeaderProps) => {
+const AuthHeader = ({
+  navigation,
+}: AuthHeaderTabsProps | AuthHeaderStackProps) => {
   const {
     authentication: {user},
   } = useSelector(state => state);
@@ -42,11 +47,7 @@ const AuthHeader = ({navigation}: AuthHeaderProps) => {
           />
         </Box>
         <Box mx={0.5} px={1} py={1}>
-          <Icon
-            name="search-outline"
-            size={ICON_SIZE}
-            color={theme.colors?.primary}
-          />
+          <SearchButton icon={{size: ICON_SIZE}} />
         </Box>
         <Box px={1} py={1}>
           <Avatar

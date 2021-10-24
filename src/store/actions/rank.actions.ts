@@ -1,5 +1,5 @@
 import * as rankAPI from 'api/rank';
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Dispatch} from 'redux';
 import {RootState} from 'store/types';
 import {
@@ -38,7 +38,7 @@ export const likeStoryAction = (
   option: LikeActions,
   userId: string,
 ) => {
-  return (dispatch: any) => {
+  return (dispatch: Dispatch<RankStoriesActionTypes>) => {
     dispatch({
       type: LIKE_RANK_STORY,
       payload: {

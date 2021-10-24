@@ -1,4 +1,4 @@
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Story, StoryPartComment} from 'interfaces/story';
 
 export const UPDATE_CURRENT_STORY = 'UPDATE_CURRENT_IN_READ_SCREEN_STORY';

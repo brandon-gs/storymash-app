@@ -1,13 +1,12 @@
 import React, {useCallback} from 'react';
 import {Box} from 'components';
-import {useLoader, useThunkDispatch} from 'hooks';
+import {useLoader, useThunkDispatch, useButtonLike} from 'hooks';
 import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'interfaces/story';
-import useLikeButton from 'hooks/useLikeButton';
 import {
   AuthStackRoutes,
   ProfileScreenProp,
@@ -31,7 +30,7 @@ function StoriesProfile({profile}: StoriesProfileProps) {
   const keyExtractor = useCallback((item: Story) => item._id, []);
 
   // Like actions
-  const {addOrRemoveLike} = useLikeButton();
+  const {addOrRemoveLike} = useButtonLike();
 
   // State
   const [refreshing, enableRefresh, disableRefresh] = useLoader(false);

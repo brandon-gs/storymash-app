@@ -9,7 +9,7 @@ import {
 } from 'store/types/profile.types';
 import * as profileAPI from 'api/profile';
 import {RootState} from 'store/types';
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 
 // Actions
 export const setProfile = (profileUsername: string) => {
@@ -79,13 +79,15 @@ export const likeProfileStory = (
   };
 };
 
-export const followUser = () => {
+export const followUser = (username?: string) => {
   return async (
     dispatch: Dispatch<ProfileActionTypes>,
     getState: () => RootState,
   ) => {
     try {
-      const profileUsername = getState().profile.user!.username;
+      const profileUsername = username
+        ? username
+        : getState().profile.user!.username;
       const {profile} = await profileAPI.putFollowUser(profileUsername);
       dispatch({
         type: PROFILE_FOLLOW_USER,
@@ -99,13 +101,15 @@ export const followUser = () => {
   };
 };
 
-export const unfollowUser = () => {
+export const unfollowUser = (username = '') => {
   return async (
     dispatch: Dispatch<ProfileActionTypes>,
     getState: () => RootState,
   ) => {
     try {
-      const profileUsername = getState().profile.user!.username;
+      const profileUsername = username
+        ? username
+        : getState().profile.user!.username;
       const {profile} = await profileAPI.putUnfollowUser(profileUsername);
       dispatch({
         type: PROFILE_UNFOLLOW_USER,

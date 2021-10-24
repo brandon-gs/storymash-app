@@ -1,3 +1,4 @@
+import {Paginate} from 'interfaces/global';
 import {Story, StoryPartComment} from 'interfaces/story';
 
 export const UPDATE_STORIES = 'UPDATE_STORIES';
@@ -8,19 +9,7 @@ export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const ADD_LIKE_TO_STORY = '@REDUX_ONLY/ADD_LIKE_TO_STORY';
 
-export interface StoriesState {
-  docs: Story[];
-  totalDocs: number;
-  offset: number;
-  limit: number;
-  totalPages: number;
-  page: number;
-  pagingCounter: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  prevPage: number | null;
-  nextPage: number | null;
-}
+export type StoriesState = Paginate<Story>;
 
 interface LikeToStoryAction {
   type: typeof ADD_LIKE_TO_STORY;

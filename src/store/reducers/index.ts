@@ -7,6 +7,7 @@ import profile from './profile.reducer';
 import rank from './rank.reducer';
 import favorites from './favorites.reducer';
 import plank from './plank.reducer';
+import search from './search.reducer';
 
 export default combineReducers({
   authentication,
@@ -16,4 +17,5 @@ export default combineReducers({
   rank,
   favorites,
   plank,
+  search,
 });

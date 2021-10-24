@@ -3,6 +3,7 @@ import {FavoritesStoriesState} from './types/favorites.types';
 import {PlankStoriesState} from './types/plank.types';
 import {ProfileState} from './types/profile.types';
 import {RankStoriesState} from './types/rank.types';
+import {SearchState} from './types/search.types';
 import {StoriesState} from './types/stories.types';
 import {StoryState} from './types/story.types';
 
@@ -14,6 +15,7 @@ export interface RootState {
   rank: RankStoriesState;
   favorites: FavoritesStoriesState;
   plank: PlankStoriesState;
+  search: SearchState;
 }
 
 declare module 'react-redux' {

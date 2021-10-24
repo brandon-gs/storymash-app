@@ -5,8 +5,12 @@ import {
   AUTH_DEAUTHENTICATE,
   AUTH_UPDATE_USER,
   AUTH_REMOVE_USER,
+  USER_ADD_FOLLOWER,
+  USER_REMOVE_FOLLOWER,
+  AuthActions,
 } from '../types/auth.types';
 import {User} from 'interfaces/user';
+import {Dispatch} from 'redux';
 
 // Update the user without request
 const updateUser = (user: User) => {
@@ -90,6 +94,28 @@ const deauthenticate = () => {
   };
 };
 
+const followUser = (userId: string) => {
+  return (dispatch: Dispatch<AuthActions>) => {
+    dispatch({
+      type: USER_ADD_FOLLOWER,
+      payload: {
+        userToFollowId: userId,
+      },
+    });
+  };
+};
+
+const unfollowUser = (userId: string) => {
+  return (dispatch: Dispatch<AuthActions>) => {
+    dispatch({
+      type: USER_REMOVE_FOLLOWER,
+      payload: {
+        userToUnfollowId: userId,
+      },
+    });
+  };
+};
+
 export default {
   authenticate,
   reauthenticate,
@@ -97,4 +123,7 @@ export default {
   updateUser,
   asyncUpdateUser,
   removeUser,
+  // Following user
+  followUser,
+  unfollowUser,
 };

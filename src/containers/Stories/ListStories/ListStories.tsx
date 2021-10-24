@@ -6,7 +6,7 @@ import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'interfaces/story';
-import useLikeButton from 'hooks/useLikeButton';
+import useLikeButton from 'hooks/useButtonLike';
 import {
   AuthStackRoutes,
   ProfileScreenProp,
@@ -22,7 +22,7 @@ export interface ListStoriesProps {
     | React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   stories: Story[];
   hasNextPage: boolean;
-  onRefresh: () => Promise<void> | void;
+  onRefresh?: () => Promise<void> | void;
   onEndReached: () => Promise<void> | void;
 }
 
@@ -111,12 +111,16 @@ function ListStories({
       ListEmptyComponent={
         EmptyComponent ? EmptyComponent : <EmptyStories onRefresh={onRefresh} />
       }
-      onRefresh={async () => {
-        enableRefresh();
-        // Do an api call to page 0 when do onRefresh
-        await onRefresh();
-        disableRefresh();
-      }}
+      onRefresh={
+        onRefresh
+          ? async () => {
+              enableRefresh();
+              // Do an api call to page 0 when do onRefresh
+              await onRefresh();
+              disableRefresh();
+            }
+          : undefined
+      }
       onEndReached={async () => {
         if (hasNextPage) {
           enableLoading();

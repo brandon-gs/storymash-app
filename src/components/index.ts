@@ -1,9 +1,11 @@
 export {default as BackgroundFull} from './BackgroundFull';
 export {default as Box} from './Box';
-export {default as LikeButton} from './LikeButton';
+export {default as ButtonFollow} from './ButtonFollow';
+export {default as ButtonLike} from './ButtonLike';
 export {default as ListStoryParts} from './ListStoryParts';
 export {default as Loader} from './Loader';
 export {default as ModalMenuItem} from './ModalMenuItem';
+export {default as SearchBar} from './SearchBar';
 export {default as SettingsItem} from './SettingsItem';
 export {default as StyledText} from './StyledText';
 export {default as UserAvatar} from './UserAvatar';

@@ -1,3 +1,5 @@
+import {FontVariant} from 'interfaces/style';
+
 export const FONT_NAME = 'Nunito';
 
 export const fontVariants: Record<FontVariant, string> = {

@@ -5,6 +5,8 @@ import {
   AUTH_DEAUTHENTICATE,
   AUTH_UPDATE_USER,
   AUTH_REMOVE_USER,
+  USER_ADD_FOLLOWER,
+  USER_REMOVE_FOLLOWER,
 } from 'store/types/auth.types';
 
 const initialState: AuthState = {
@@ -41,6 +43,38 @@ const authReducer = (state = initialState, action: AuthActions): AuthState => {
       return {
         ...state,
         user: undefined,
+      };
+    }
+    case USER_ADD_FOLLOWER: {
+      const {userToFollowId} = action.payload;
+
+      if (!state.user) {
+        return state;
+      }
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          following: [...state.user.following, userToFollowId],
+        },
+      };
+    }
+    case USER_REMOVE_FOLLOWER: {
+      const {userToUnfollowId} = action.payload;
+
+      if (!state.user) {
+        return state;
+      }
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          following: state.user.following.filter(
+            userId => userId !== userToUnfollowId,
+          ),
+        },
       };
     }
     default: {

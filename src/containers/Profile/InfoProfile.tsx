@@ -1,18 +1,25 @@
 import React from 'react';
-import {Box, StyledText, UserAvatar} from 'components';
-import {ButtonFollow, ButtonSettings} from 'containers';
+import {Box, StyledText, UserAvatar, ButtonFollow} from 'components';
+import {ButtonSettings} from 'containers';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {User} from 'interfaces/user';
+import {useButtonFollow} from 'hooks';
 
 interface InfoProfileProps {
   profile: User;
 }
 
 export default function InfoProfile({profile}: InfoProfileProps) {
+  const {isOwnProfile, isFollower, handlePress} = useButtonFollow();
+
   return (
     <Box bg="white">
       <Box direction="row" justifyContent="space-between" px={3} pt={2}>
-        <ButtonFollow />
+        <ButtonFollow
+          isFollower={isFollower}
+          isOwnProfile={isOwnProfile}
+          handlePress={handlePress}
+        />
         <Box alignItems="center" height={104} justifyContent="space-between">
           <UserAvatar userImage={profile.image} size={80} />
           <StyledText color="primary">@{profile.username}</StyledText>
@@ -30,8 +37,8 @@ export default function InfoProfile({profile}: InfoProfileProps) {
         />
       </Box>
       {profile.about !== '' && (
-        <Box alignItems="center" my={2}>
-          <StyledText fsize={2.5} color="grey">
+        <Box alignItems="center" px={1} my={2}>
+          <StyledText fsize={2.5} color="grey" align="center">
             {profile.about}
           </StyledText>
         </Box>

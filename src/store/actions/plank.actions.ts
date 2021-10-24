@@ -1,5 +1,5 @@
 import * as plankAPI from 'api/plank';
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Dispatch} from 'redux';
 import {RootState} from 'store/types';
 import {

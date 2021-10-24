@@ -1,4 +1,4 @@
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {User} from 'interfaces/user';
 import {StoriesState} from './stories.types';
 

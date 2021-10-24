@@ -7,7 +7,7 @@ import axios from 'utils/axios';
 
 export type LikeActions = 'add' | 'remove' | '';
 
-const useLikeButton = () => {
+const useButtonLike = () => {
   const dispatch = useThunkDispatch();
   const {
     authentication: {user},
@@ -94,4 +94,4 @@ const useLikeButton = () => {
   return {addOrRemoveLike};
 };
 
-export default useLikeButton;
+export default useButtonLike;

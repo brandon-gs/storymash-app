@@ -5,4 +5,5 @@ export {default as PlankStoriesScreen} from './PlankStoriesScreen';
 export {default as ProfileScreen} from './ProfileScreen';
 export {default as RankStoriesScreen} from './RankStoriesScreen';
 export {default as ReadStoryScreen} from './ReadStoryScreen';
+export {default as SearchScreen} from './SearchScreen';
 export {default as SettingsScreen} from './SettingsScreen';

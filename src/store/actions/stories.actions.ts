@@ -1,4 +1,4 @@
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Story, StoryPartComment} from 'interfaces/story';
 import {RootState} from 'store/types';
 import axios from 'utils/axios';

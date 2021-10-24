@@ -1,5 +1,5 @@
 import storyAPI from 'api/story';
-import {LikeActions} from 'hooks/useLikeButton';
+import {LikeActions} from 'hooks/useButtonLike';
 import {Dispatch} from 'redux';
 import {
   ADD_LIKE_TO_CURRENT_STORY,

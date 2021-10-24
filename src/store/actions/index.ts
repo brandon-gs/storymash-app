@@ -5,6 +5,7 @@ import * as profile from './profile.actions';
 import * as rank from './rank.actions';
 import * as favorites from './favorites.actions';
 import * as plank from './plank.actions';
+import * as search from './search.actions';
 
 export default {
   auth,
@@ -14,4 +15,5 @@ export default {
   rank,
   favorites,
   plank,
+  search,
 };
