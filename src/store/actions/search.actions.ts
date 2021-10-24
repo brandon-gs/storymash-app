@@ -14,6 +14,7 @@ import {
   SEARCH_UNFOLLOW_PROFILE,
 } from 'store/types/search.types';
 import {AuthActions} from 'store/types/auth.types';
+import {ProfileActionTypes} from 'store/types/profile.types';
 
 export const setQuery = (query: string) => {
   return (dispatch: Dispatch<SearchActionTypes>) => {
@@ -121,12 +122,12 @@ export const setStories = (page = -1, limit = -1) => {
 
 export const followProfile = (profileUsername: string, profileId: string) => {
   return async (
-    dispatch: Dispatch<SearchActionTypes | AuthActions>,
+    dispatch: Dispatch<SearchActionTypes | AuthActions | ProfileActionTypes>,
     getState: () => RootState,
   ) => {
     try {
       const id = getState().authentication.user._id;
-      await profileAPI.putFollowUser(profileUsername);
+      const {profile} = await profileAPI.putFollowUser(profileUsername);
       dispatch({
         type: '@AUTH/USER_ADD_FOLLOWER',
         payload: {
@@ -140,6 +141,11 @@ export const followProfile = (profileUsername: string, profileId: string) => {
           userId: id,
         },
       });
+      // Update profile screen followers
+      dispatch({
+        type: 'PROFILE_FOLLOW_USER',
+        payload: profile,
+      });
     } catch (e) {
       console.log('Error follow user');
     }
@@ -148,12 +154,12 @@ export const followProfile = (profileUsername: string, profileId: string) => {
 
 export const unfollowProfile = (profileUsername: string, profileId: string) => {
   return async (
-    dispatch: Dispatch<SearchActionTypes | AuthActions>,
+    dispatch: Dispatch<SearchActionTypes | AuthActions | ProfileActionTypes>,
     getState: () => RootState,
   ) => {
     try {
       const id = getState().authentication.user?._id;
-      await profileAPI.putUnfollowUser(profileUsername);
+      const {profile} = await profileAPI.putUnfollowUser(profileUsername);
       dispatch({
         type: SEARCH_UNFOLLOW_PROFILE,
         payload: {
@@ -166,6 +172,11 @@ export const unfollowProfile = (profileUsername: string, profileId: string) => {
         payload: {
           userToUnfollowId: profileId,
         },
+      });
+      // Update profile screen followers
+      dispatch({
+        type: 'PROFILE_FOLLOW_USER',
+        payload: profile,
       });
     } catch (e) {
       console.log('Error unfollow profile list');

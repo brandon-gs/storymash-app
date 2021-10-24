@@ -13,6 +13,7 @@ import * as profileAPI from 'api/profile';
 import {RootState} from 'store/types';
 import {LikeActions} from 'hooks/useButtonLike';
 import {AuthActions} from 'store/types/auth.types';
+import {SearchActionTypes} from 'store/types/search.types';
 
 // Actions
 export const setProfile = (profileUsername: string) => {
@@ -84,16 +85,18 @@ export const likeProfileStory = (
 
 export const followUser = (username?: string) => {
   return async (
-    dispatch: Dispatch<ProfileActionTypes | AuthActions>,
+    dispatch: Dispatch<ProfileActionTypes | AuthActions | SearchActionTypes>,
     getState: () => RootState,
   ) => {
     dispatch({
       type: PROFILE_ENABLE_FOLLOW_LOADING,
     });
     try {
+      const userId = getState().authentication.user._id;
       const profileUsername = username
         ? username
         : getState().profile.user!.username;
+
       const {profile} = await profileAPI.putFollowUser(profileUsername);
       dispatch({
         type: PROFILE_FOLLOW_USER,
@@ -103,6 +106,13 @@ export const followUser = (username?: string) => {
         type: '@AUTH/USER_ADD_FOLLOWER',
         payload: {
           userToFollowId: profile._id,
+        },
+      });
+      dispatch({
+        type: 'SEARCH_FOLLOW_PROFILE',
+        payload: {
+          profileId: profile._id,
+          userId,
         },
       });
     } catch (e) {
@@ -118,16 +128,18 @@ export const followUser = (username?: string) => {
 
 export const unfollowUser = (username = '') => {
   return async (
-    dispatch: Dispatch<ProfileActionTypes | AuthActions>,
+    dispatch: Dispatch<ProfileActionTypes | AuthActions | SearchActionTypes>,
     getState: () => RootState,
   ) => {
     dispatch({
       type: PROFILE_ENABLE_FOLLOW_LOADING,
     });
     try {
+      const userId = getState().authentication.user._id;
       const profileUsername = username
         ? username
         : getState().profile.user!.username;
+
       const {profile} = await profileAPI.putUnfollowUser(profileUsername);
       dispatch({
         type: PROFILE_UNFOLLOW_USER,
@@ -137,6 +149,13 @@ export const unfollowUser = (username = '') => {
         type: '@AUTH/USER_REMOVE_FOLLOWER',
         payload: {
           userToUnfollowId: profile._id,
+        },
+      });
+      dispatch({
+        type: 'SEARCH_UNFOLLOW_PROFILE',
+        payload: {
+          profileId: profile._id,
+          userId,
         },
       });
     } catch (e) {

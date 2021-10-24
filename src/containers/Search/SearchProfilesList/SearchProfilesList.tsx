@@ -1,7 +1,12 @@
+import {useNavigation} from '@react-navigation/core';
 import {Box} from 'components';
 import {EmptyStories} from 'containers';
 import {useLoader, useThunkDispatch} from 'hooks';
 import {User} from 'interfaces/user';
+import {
+  AuthStackRoutes,
+  ProfileScreenProp,
+} from 'navigation/AuthStackNavigation';
 import React, {useCallback, useState} from 'react';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
@@ -12,6 +17,9 @@ import SearchProfileItem from './SearchProfileItem';
 function SearchProfileList() {
   const {theme} = useTheme();
   const dispatch = useThunkDispatch();
+
+  const navigation = useNavigation<ProfileScreenProp>();
+
   const user = useSelector(state => state.authentication.user);
   const profiles = useSelector(state => state.search.profiles.docs);
   const hasNextPage = useSelector(state => state.search.profiles.hasNextPage);
@@ -51,9 +59,11 @@ function SearchProfileList() {
 
   const goToProfile = useCallback(
     (username: string) => () => {
-      console.log('Go to profile: ', username);
+      navigation.navigate(AuthStackRoutes.Profile, {
+        profileUsername: username,
+      });
     },
-    [],
+    [navigation],
   );
 
   const renderItem = (props: ListRenderItemInfo<User>) => {
