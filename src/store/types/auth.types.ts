@@ -9,7 +9,7 @@ export const USER_REMOVE_FOLLOWER = '@AUTH/USER_REMOVE_FOLLOWER';
 
 export interface AuthState {
   token?: string;
-  user?: User;
+  user: User;
   auth: boolean;
 }
 

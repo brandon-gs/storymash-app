@@ -2,54 +2,61 @@ import React from 'react';
 import {Box, StyledText, UserAvatar, ButtonFollow} from 'components';
 import {ButtonSettings} from 'containers';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {User} from 'interfaces/user';
 import {useButtonFollow} from 'hooks';
+import _ from 'lodash';
+import {useSelector} from 'react-redux';
+import selectors from 'selectors';
 
-interface InfoProfileProps {
-  profile: User;
-}
+interface InfoProfileProps {}
 
-export default function InfoProfile({profile}: InfoProfileProps) {
-  const {isOwnProfile, isFollower, handlePress} = useButtonFollow();
+function InfoProfile({}: InfoProfileProps) {
+  const profile = useSelector(state => state.profile.user);
+  const followLoading = useSelector(selectors.profile.getFollowLoading);
 
-  return (
-    <Box bg="white">
-      <Box direction="row" justifyContent="space-between" px={3} pt={2}>
-        <ButtonFollow
-          isFollower={isFollower}
-          isOwnProfile={isOwnProfile}
-          handlePress={handlePress}
-        />
-        <Box alignItems="center" height={104} justifyContent="space-between">
-          <UserAvatar userImage={profile.image} size={80} />
-          <StyledText color="primary">@{profile.username}</StyledText>
+  const {isOwnProfile, isUserFollowing, handlePress} = useButtonFollow(profile);
+
+  if (profile) {
+    return (
+      <Box bg="white">
+        <Box direction="row" justifyContent="space-between" px={3} pt={2}>
+          <ButtonFollow
+            isLoading={followLoading}
+            isFollower={isUserFollowing}
+            isOwnProfile={isOwnProfile}
+            handlePress={handlePress}
+          />
+          <Box alignItems="center" height={104} justifyContent="space-between">
+            <UserAvatar userImage={profile.image} size={80} />
+            <StyledText color="primary">@{profile.username}</StyledText>
+          </Box>
+          <ButtonSettings />
         </Box>
-        <ButtonSettings />
-      </Box>
-      <Box direction="row" justifyContent="center" alignItems="center" mt={2}>
-        <StyledText fsize={2} color="grey">
-          {`Nivel ${profile.level} (${profile.points} puntos) `}
-        </StyledText>
-        <Icon
-          name="ellipse"
-          size={16}
-          color={getColorFromLevel(profile.level)}
-        />
-      </Box>
-      {profile.about !== '' && (
-        <Box alignItems="center" px={1} my={2}>
-          <StyledText fsize={2.5} color="grey" align="center">
-            {profile.about}
+        <Box direction="row" justifyContent="center" alignItems="center" mt={2}>
+          <StyledText fsize={2} color="grey">
+            {`Nivel ${profile.level} (${profile.points} puntos) `}
+          </StyledText>
+          <Icon
+            name="ellipse"
+            size={16}
+            color={getColorFromLevel(profile.level)}
+          />
+        </Box>
+        {profile.about !== '' && (
+          <Box alignItems="center" px={1} my={2}>
+            <StyledText fsize={2.5} color="grey" align="center">
+              {profile.about}
+            </StyledText>
+          </Box>
+        )}
+        <Box direction="row" justifyContent="center" my={2}>
+          <StyledText fsize={2} color="grey">
+            {`Seguidores (${profile.followers.length})  |  Seguidos (${profile.following.length})`}
           </StyledText>
         </Box>
-      )}
-      <Box direction="row" justifyContent="center" my={2}>
-        <StyledText fsize={2} color="grey">
-          {`Seguidores (${profile.followers.length})  |  Seguidos (${profile.following.length})`}
-        </StyledText>
       </Box>
-    </Box>
-  );
+    );
+  }
+  return null;
 }
 
 export function getColorFromLevel(level: number): string {
@@ -69,3 +76,7 @@ export function getColorFromLevel(level: number): string {
   ];
   return colors[level];
 }
+
+export default React.memo(InfoProfile, (prev, next) => {
+  return _.isEqual(prev, next);
+});

@@ -1,8 +1,8 @@
 import {Box} from 'components';
 import {EmptyStories} from 'containers';
-import {useButtonFollow, useLoader, useThunkDispatch} from 'hooks';
+import {useLoader, useThunkDispatch} from 'hooks';
 import {User} from 'interfaces/user';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {ActivityIndicator, FlatList, ListRenderItemInfo} from 'react-native';
 import {useTheme} from 'react-native-elements';
 import {useSelector} from 'react-redux';
@@ -13,35 +13,58 @@ function SearchProfileList() {
   const {theme} = useTheme();
   const dispatch = useThunkDispatch();
   const user = useSelector(state => state.authentication.user);
-  const profiles = useSelector(state => state.search.profiles);
+  const profiles = useSelector(state => state.search.profiles.docs);
+  const hasNextPage = useSelector(state => state.search.profiles.hasNextPage);
 
-  const {handlePress} = useButtonFollow();
   const [loading, enableLoading, disableLoading] = useLoader(false);
+  const [followLoading, setFollowLoading] = useState<Record<string, boolean>>(
+    {},
+  );
+
+  const addUserToFollowLoading = (username: string) =>
+    setFollowLoading(prevFollowLoading => ({
+      ...prevFollowLoading,
+      [username]: true,
+    }));
+
+  const removeUserFromFollowLoading = (username: string) => {
+    setFollowLoading(prevFollowLoading => ({
+      ...prevFollowLoading,
+      [username]: false,
+    }));
+  };
 
   const handleFollowPress = useCallback(
     async (username: string, profileId: string, isFollower: boolean) => {
-      console.log('callback', profileId);
-      await handlePress(username, profileId, isFollower);
       if (isFollower) {
-        dispatch(actions.search.unfollowProfile(profileId));
+        addUserToFollowLoading(username);
+        await dispatch(actions.search.unfollowProfile(username, profileId));
+        removeUserFromFollowLoading(username);
       } else {
-        dispatch(actions.search.followProfile(profileId));
+        addUserToFollowLoading(username);
+        await dispatch(actions.search.followProfile(username, profileId));
+        removeUserFromFollowLoading(username);
       }
     },
-    [handlePress, dispatch],
+    [dispatch],
   );
 
-  const goToProfile = (username: string) => () => {
-    console.log('Go to profile: ', username);
-  };
+  const goToProfile = useCallback(
+    (username: string) => () => {
+      console.log('Go to profile: ', username);
+    },
+    [],
+  );
 
   const renderItem = (props: ListRenderItemInfo<User>) => {
-    console.log(props.item._id);
-    console.log(user?.following);
     const isFollower = user!.following.includes(props.item._id);
     const isOwnProfile = props.item._id === user!._id;
+    const isFollowingLoading = followLoading[props.item.username]
+      ? followLoading[props.item.username]
+      : false;
     return (
       <SearchProfileItem
+        isFollowingLoading={isFollowingLoading}
         handleFollowPress={handleFollowPress}
         isFollower={isFollower}
         goToProfile={goToProfile}
@@ -60,16 +83,16 @@ function SearchProfileList() {
   };
 
   const onEndReached = useCallback(async () => {
-    if (profiles.hasNextPage) {
+    if (hasNextPage) {
       enableLoading();
       await dispatch(actions.search.setProfiles());
       disableLoading();
     }
-  }, [dispatch, enableLoading, disableLoading, profiles.hasNextPage]);
+  }, [dispatch, enableLoading, disableLoading, hasNextPage]);
 
   return (
     <FlatList
-      data={profiles.docs}
+      data={profiles}
       renderItem={renderItem}
       ListEmptyComponent={<EmptyStories title="No se encontraron personas" />}
       ListFooterComponent={renderLoader}

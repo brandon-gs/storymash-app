@@ -2,6 +2,8 @@ import {Dispatch} from 'redux';
 import {
   ADD_LIKE_TO_PROFILE_STORY,
   ProfileActionTypes,
+  PROFILE_DISABLE_FOLLOW_LOADING,
+  PROFILE_ENABLE_FOLLOW_LOADING,
   PROFILE_FOLLOW_USER,
   PROFILE_UNFOLLOW_USER,
   SET_PROFILE,
@@ -10,6 +12,7 @@ import {
 import * as profileAPI from 'api/profile';
 import {RootState} from 'store/types';
 import {LikeActions} from 'hooks/useButtonLike';
+import {AuthActions} from 'store/types/auth.types';
 
 // Actions
 export const setProfile = (profileUsername: string) => {
@@ -81,9 +84,12 @@ export const likeProfileStory = (
 
 export const followUser = (username?: string) => {
   return async (
-    dispatch: Dispatch<ProfileActionTypes>,
+    dispatch: Dispatch<ProfileActionTypes | AuthActions>,
     getState: () => RootState,
   ) => {
+    dispatch({
+      type: PROFILE_ENABLE_FOLLOW_LOADING,
+    });
     try {
       const profileUsername = username
         ? username
@@ -93,19 +99,31 @@ export const followUser = (username?: string) => {
         type: PROFILE_FOLLOW_USER,
         payload: profile,
       });
+      dispatch({
+        type: '@AUTH/USER_ADD_FOLLOWER',
+        payload: {
+          userToFollowId: profile._id,
+        },
+      });
     } catch (e) {
       // Todo show an error
       console.log(JSON.stringify(e));
       console.log('Error following user');
     }
+    dispatch({
+      type: PROFILE_DISABLE_FOLLOW_LOADING,
+    });
   };
 };
 
 export const unfollowUser = (username = '') => {
   return async (
-    dispatch: Dispatch<ProfileActionTypes>,
+    dispatch: Dispatch<ProfileActionTypes | AuthActions>,
     getState: () => RootState,
   ) => {
+    dispatch({
+      type: PROFILE_ENABLE_FOLLOW_LOADING,
+    });
     try {
       const profileUsername = username
         ? username
@@ -115,10 +133,19 @@ export const unfollowUser = (username = '') => {
         type: PROFILE_UNFOLLOW_USER,
         payload: profile,
       });
+      dispatch({
+        type: '@AUTH/USER_REMOVE_FOLLOWER',
+        payload: {
+          userToUnfollowId: profile._id,
+        },
+      });
     } catch (e) {
       // Todo show an error
       console.log(JSON.stringify(e));
       console.log('Error following user');
     }
+    dispatch({
+      type: PROFILE_DISABLE_FOLLOW_LOADING,
+    });
   };
 };

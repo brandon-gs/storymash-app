@@ -82,7 +82,7 @@ function StoriesProfile({profile}: StoriesProfileProps) {
       keyExtractor={keyExtractor}
       ListFooterComponent={renderLoader}
       refreshing={refreshing}
-      ListHeaderComponent={<InfoProfile profile={profile} />}
+      ListHeaderComponent={InfoProfile}
       ListEmptyComponent={EmptyStories}
       onRefresh={() => {
         enableRefresh();

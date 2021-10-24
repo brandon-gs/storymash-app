@@ -6,10 +6,13 @@ import {
   PROFILE_UNFOLLOW_USER,
   SET_PROFILE,
   SET_PROFILE_STORIES,
+  PROFILE_DISABLE_FOLLOW_LOADING,
+  PROFILE_ENABLE_FOLLOW_LOADING,
 } from 'store/types/profile.types';
 import {addOrRemoveLikeMap} from 'utils/stories';
 
 const initialState: ProfileState = {
+  loadingFollow: false,
   user: null,
   stories: {
     docs: [],
@@ -77,6 +80,20 @@ export default function profileReducer(
       return {
         ...state,
         user: profile,
+      };
+    }
+
+    case PROFILE_ENABLE_FOLLOW_LOADING: {
+      return {
+        ...state,
+        loadingFollow: true,
+      };
+    }
+
+    case PROFILE_DISABLE_FOLLOW_LOADING: {
+      return {
+        ...state,
+        loadingFollow: false,
       };
     }
 

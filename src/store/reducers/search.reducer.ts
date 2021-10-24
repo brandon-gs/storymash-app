@@ -67,7 +67,7 @@ export default function searchReducer(
         ...state,
         profiles: {
           ...state.profiles,
-          docs: state.profiles.docs.filter(profile => {
+          docs: state.profiles.docs.map(profile => {
             if (profile._id === profileId) {
               return {
                 ...profile,

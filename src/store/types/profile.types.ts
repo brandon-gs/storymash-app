@@ -7,11 +7,22 @@ export const SET_PROFILE_STORIES = 'SET_PROFILE_STORIES';
 export const ADD_LIKE_TO_PROFILE_STORY = 'ADD_LIKE_TO_PROFILE_STORY';
 export const PROFILE_FOLLOW_USER = 'PROFILE_FOLLOW_USER';
 export const PROFILE_UNFOLLOW_USER = 'PROFILE_UNFOLLOW_USER';
+export const PROFILE_ENABLE_FOLLOW_LOADING = 'PROFILE_ENABLE_FOLLOW_LOADING';
+export const PROFILE_DISABLE_FOLLOW_LOADING = 'PROFILE_DISABLE_FOLLOW_LOADING';
 
 export type ProfileState = {
   user: User | null;
   stories: StoriesState;
+  loadingFollow: boolean;
 };
+
+interface EnableLoadingFollowing {
+  type: typeof PROFILE_ENABLE_FOLLOW_LOADING;
+}
+
+interface DisableLoadingFollowing {
+  type: typeof PROFILE_DISABLE_FOLLOW_LOADING;
+}
 
 interface SetProfile {
   type: typeof SET_PROFILE;
@@ -50,4 +61,6 @@ export type ProfileActionTypes =
   | SetProfileStories
   | AddLikeToProfileStory
   | FollowUser
-  | UnfollowUser;
+  | UnfollowUser
+  | EnableLoadingFollowing
+  | DisableLoadingFollowing;

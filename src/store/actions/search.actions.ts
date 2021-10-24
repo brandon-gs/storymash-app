@@ -1,4 +1,5 @@
 import * as searchAPI from 'api/search';
+import * as profileAPI from 'api/profile';
 import {Dispatch} from 'redux';
 import {RootState} from 'store/types';
 import {
@@ -12,6 +13,7 @@ import {
   SEARCH_FOLLOW_PROFILE,
   SEARCH_UNFOLLOW_PROFILE,
 } from 'store/types/search.types';
+import {AuthActions} from 'store/types/auth.types';
 
 export const setQuery = (query: string) => {
   return (dispatch: Dispatch<SearchActionTypes>) => {
@@ -117,10 +119,20 @@ export const setStories = (page = -1, limit = -1) => {
   };
 };
 
-export const followProfile = (profileId: string) => {
-  return (dispatch: Dispatch<SearchActionTypes>, getState: () => RootState) => {
-    const id = getState().authentication.user?._id;
-    if (id) {
+export const followProfile = (profileUsername: string, profileId: string) => {
+  return async (
+    dispatch: Dispatch<SearchActionTypes | AuthActions>,
+    getState: () => RootState,
+  ) => {
+    try {
+      const id = getState().authentication.user._id;
+      await profileAPI.putFollowUser(profileUsername);
+      dispatch({
+        type: '@AUTH/USER_ADD_FOLLOWER',
+        payload: {
+          userToFollowId: profileId,
+        },
+      });
       dispatch({
         type: SEARCH_FOLLOW_PROFILE,
         payload: {
@@ -128,14 +140,20 @@ export const followProfile = (profileId: string) => {
           userId: id,
         },
       });
+    } catch (e) {
+      console.log('Error follow user');
     }
   };
 };
 
-export const unfollowProfile = (profileId: string) => {
-  return (dispatch: Dispatch<SearchActionTypes>, getState: () => RootState) => {
-    const id = getState().authentication.user?._id;
-    if (id) {
+export const unfollowProfile = (profileUsername: string, profileId: string) => {
+  return async (
+    dispatch: Dispatch<SearchActionTypes | AuthActions>,
+    getState: () => RootState,
+  ) => {
+    try {
+      const id = getState().authentication.user?._id;
+      await profileAPI.putUnfollowUser(profileUsername);
       dispatch({
         type: SEARCH_UNFOLLOW_PROFILE,
         payload: {
@@ -143,6 +161,14 @@ export const unfollowProfile = (profileId: string) => {
           userId: id,
         },
       });
+      dispatch({
+        type: '@AUTH/USER_REMOVE_FOLLOWER',
+        payload: {
+          userToUnfollowId: profileId,
+        },
+      });
+    } catch (e) {
+      console.log('Error unfollow profile list');
     }
   };
 };

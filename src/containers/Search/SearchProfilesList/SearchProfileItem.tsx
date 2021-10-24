@@ -10,19 +10,21 @@ import {
 } from 'react-native';
 
 interface SearchProfileItem extends ListRenderItemInfo<User> {
+  isFollowingLoading: boolean;
+  isOwnProfile: boolean;
+  isFollower: boolean;
   goToProfile: (username: string) => () => void;
   handleFollowPress: (
     username: string,
     userId: string,
     isFollower: boolean,
   ) => Promise<void>;
-  isOwnProfile: boolean;
-  isFollower: boolean;
 }
 
 const {width} = Dimensions.get('window');
 
 function SearchProfileItem({
+  isFollowingLoading,
   item,
   isOwnProfile,
   isFollower,
@@ -52,6 +54,7 @@ function SearchProfileItem({
           </Box>
           <Box style={styles.grow} />
           <ButtonFollow
+            isLoading={isFollowingLoading}
             isFollower={isFollower}
             handlePress={async () =>
               await handleFollowPress(item.username, item._id, isFollower)
