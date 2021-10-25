@@ -7,10 +7,10 @@ import {
   View,
 } from 'react-native';
 
-const {width, height} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('window');
 
 export default function BackgroundFull({
-  overlay = 0,
+  overlay = 0.4,
   source,
   style,
   ...props

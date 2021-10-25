@@ -5,16 +5,20 @@ import {ScrollView, Image, StatusBar, StyleSheet} from 'react-native';
 import {FormLogin} from 'containers';
 import {Button} from 'react-native-elements';
 // Assets
-import backgroundImage from 'assets/background2.jpg';
+import backgroundImage from 'assets/background.jpg';
 import logoImage from 'assets/images/logo.png';
 // Theme
 import {fontVariants} from 'theme/fonts';
 
 const LoginScreen = () => {
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ScrollView
+      style={styles.scrollViewContainer}
+      contentContainerStyle={styles.scrollViewContainer}
+      keyboardShouldPersistTaps="always"
+      keyboardDismissMode="on-drag">
       <Box px={2} py={4} width="100%" height="100%">
-        <BackgroundFull source={backgroundImage} blurRadius={2} overlay={0.5} />
+        <BackgroundFull source={backgroundImage} />
         <StatusBar barStyle="light-content" backgroundColor="#000" />
         <Box alignItems="center">
           <Image source={logoImage} style={styles.imageLogo} />

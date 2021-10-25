@@ -11,6 +11,7 @@ import {
 } from '../types/auth.types';
 import {User} from 'interfaces/user';
 import {Dispatch} from 'redux';
+import {Alert} from 'react-native';
 
 // Update the user without request
 const updateUser = (user: User) => {
@@ -64,11 +65,8 @@ const authenticate = (
       const {response} = e;
       if (response && response.status === 401) {
         const message = 'Datos incorrectos, intente nuevamente.';
-        console.log(message);
-        // dispatch(actions.updateAlert({message, severity: 'error', open: true}));
+        Alert.alert('Inicio de sesión fallido', message);
       }
-    } finally {
-      // dispatch(actions.updateLoader(false));
     }
   };
 };

@@ -7,6 +7,7 @@ import {fontVariants} from 'theme/fonts';
 import actions from 'store/actions';
 import {useThunkDispatch} from 'hooks';
 import useAsync from 'hooks/useAsync';
+import {themeColors} from 'theme/theme';
 
 const FormLogin = () => {
   const dispatch = useThunkDispatch();
@@ -23,39 +24,48 @@ const FormLogin = () => {
     <Box mt={3}>
       <Box mt={1}>
         <Input
-          placeholderTextColor="#FFF"
           inputStyle={styles.inputStyle}
           placeholder="Nombre de usuario o email"
           inputContainerStyle={styles.inputContainer}
           onChangeText={value => setUsername(value)}
-          rightIcon={<Icon name="user" size={24} color="white" />}
+          rightIcon={
+            <Icon
+              name="user"
+              size={24}
+              color={themeColors.disabledIcon}
+              style={styles.inputRightIcon}
+            />
+          }
         />
       </Box>
       <Box mt={1}>
         <Input
           placeholder="Contraseña"
-          placeholderTextColor="#FFF"
           inputStyle={styles.inputStyle}
           secureTextEntry={!showPassword}
           inputContainerStyle={styles.inputContainer}
           onChangeText={value => setPassword(value)}
           rightIcon={
             <Icon
-              name={showPassword ? 'eye-off' : 'eye'}
+              name={showPassword ? 'eye' : 'eye-off'}
               size={24}
-              color="white"
+              color={themeColors.disabledIcon}
               onPress={() => setShowPassword(prev => !prev)}
+              style={styles.inputRightIcon}
             />
           }
           onSubmitEditing={handlePromise}
         />
       </Box>
-      <Box mt={4}>
+      <Box mt={4} mb={2}>
         <Button
           title="Iniciar sesión"
           onPress={handlePromise}
           loading={loading}
           titleStyle={styles.buttonTitle}
+          loadingProps={{
+            size: 30,
+          }}
         />
       </Box>
     </Box>
@@ -64,16 +74,21 @@ const FormLogin = () => {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    color: '#FFF',
+    color: themeColors.disabledIcon,
   },
   inputContainer: {
-    color: '#FFF',
-    borderColor: '#FFF',
+    borderRadius: 40,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+    borderWidth: 0,
   },
   buttonTitle: {
     fontSize: 20,
     paddingVertical: 4,
     fontFamily: fontVariants.regular,
+  },
+  inputRightIcon: {
+    paddingLeft: 8,
   },
 });
 
