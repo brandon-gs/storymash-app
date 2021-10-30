@@ -1,4 +1,5 @@
 export {default as AllStoriesScreen} from './AllStoriesScreen';
+export {default as CreateStoryScreen} from './CreateStoryScreen';
 export {default as FavoriteStoriesScreen} from './FavoritesStoriesScreen';
 export {default as LoginScreen} from './LoginScreen';
 export {default as PlankStoriesScreen} from './PlankStoriesScreen';

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import {
   Dimensions,
+  Keyboard,
   StyleProp,
   TouchableOpacity,
   View,
@@ -39,6 +40,31 @@ const Tabbar = ({navigation, state, descriptors}: BottomTabBarProps) => {
   const {
     options: {tabBarStyle},
   } = descriptors[routeKey];
+
+  const [isKeyboardVisible, setKeyboardVisible] = useState<boolean>(false);
+
+  /** Show TabNavigation when keyboard is closed */
+  React.useEffect(() => {
+    const keyboadrDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setKeyboardVisible(true),
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setKeyboardVisible(false),
+    );
+
+    return () => {
+      keyboadrDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  /** If keyboard is open dont show TabNavigation */
+  if (isKeyboardVisible) {
+    return null;
+  }
+
   return (
     <View style={[styles.container, tabBarStyle as StyleProp<ViewStyle>]}>
       {state.routes.map((route, index) => {

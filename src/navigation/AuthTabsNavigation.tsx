@@ -6,6 +6,7 @@ import {
   FavoriteStoriesScreen,
   PlankStoriesScreen,
   RankStoriesScreen,
+  CreateStoryScreen,
 } from 'screens';
 
 export enum AuthTabsRoutes {
@@ -39,7 +40,10 @@ const AuthTabsNavigation = () => {
       <Tab.Screen name={AuthTabsRoutes.Plank} component={PlankStoriesScreen} />
       <Tab.Screen
         name={AuthTabsRoutes.CreateStory}
-        component={AllStoriesScreen}
+        component={CreateStoryScreen}
+        options={{
+          tabBarHideOnKeyboard: true,
+        }}
       />
       <Tab.Screen
         name={AuthTabsRoutes.Favorites}
