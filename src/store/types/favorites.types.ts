@@ -1,7 +1,7 @@
 import {StoriesState} from './stories.types';
 
-export const SET_FAVORITES_STORIES = 'SET_FAVORITES_STORIES';
-export const LIKE_FAVORITE_STORY = 'LIKE_FAVORITE_STORY';
+export const SET_FAVORITES_STORIES = '@FAVORITES/SET_FAVORITES_STORIES';
+export const LIKE_FAVORITE_STORY = '@FAVORITES/LIKE_FAVORITE_STORY';
 
 export type FavoritesStoriesState = StoriesState;
 

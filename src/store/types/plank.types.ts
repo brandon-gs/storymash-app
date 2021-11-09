@@ -1,7 +1,7 @@
 import {StoriesState} from './stories.types';
 
-export const SET_PLANK_STORIES = 'SET_PLANK_STORIES';
-export const LIKE_PLANK_STORY = 'LIKE_PLANK_STORY';
+export const SET_PLANK_STORIES = '@PLANK/SET_PLANK_STORIES';
+export const LIKE_PLANK_STORY = '@PLANK/LIKE_PLANK_STORY';
 
 export type PlankStoriesState = StoriesState;
 

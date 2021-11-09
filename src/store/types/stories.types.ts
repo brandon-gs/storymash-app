@@ -1,13 +1,13 @@
 import {Paginate} from 'interfaces/global';
 import {Story, StoryPartComment} from 'interfaces/story';
 
-export const UPDATE_STORIES = 'UPDATE_STORIES';
-export const UPDATE_DATA_STORIES = 'UPDATE_DATA_STORIES';
-export const ASYNC_UPDATE_DATA_STORIES = 'ASYNC_UPDATE_DATA_STORIES';
-export const ADD_COMMENT_TO_STORY = 'ADD_COMMENT_TO_STORY';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
-export const ADD_LIKE_TO_STORY = '@REDUX_ONLY/ADD_LIKE_TO_STORY';
+export const UPDATE_STORIES = '@STORIES/UPDATE_STORIES';
+export const UPDATE_DATA_STORIES = '@STORIES/UPDATE_DATA_STORIES';
+export const ASYNC_UPDATE_DATA_STORIES = '@STORIES/ASYNC_UPDATE_DATA_STORIES';
+export const ADD_COMMENT_TO_STORY = '@STORIES/ADD_COMMENT_TO_STORY';
+export const UPDATE_COMMENT = '@STORIES/UPDATE_COMMENT';
+export const DELETE_COMMENT = '@STORIES/DELETE_COMMENT';
+export const ADD_LIKE_TO_STORY = '@STORIES@REDUX_ONLY/ADD_LIKE_TO_STORY';
 
 export type StoriesState = Paginate<Story>;
 

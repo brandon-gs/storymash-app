@@ -1,7 +1,7 @@
 import {StoriesState} from './stories.types';
 
-export const SET_RANK_STORIES = 'SET_RANK_STORIES';
-export const LIKE_RANK_STORY = 'LIKE_RANK_STORY';
+export const SET_RANK_STORIES = '@RANK/SET_RANK_STORIES';
+export const LIKE_RANK_STORY = '@RANK/LIKE_RANK_STORY';
 
 export type RankStoriesState = StoriesState;
 
