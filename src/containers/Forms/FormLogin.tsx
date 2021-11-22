@@ -7,7 +7,7 @@ import {fontVariants} from 'theme/fonts';
 import actions from 'store/actions';
 import {useThunkDispatch} from 'hooks';
 import useAsync from 'hooks/useAsync';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const FormLogin = () => {
   const dispatch = useThunkDispatch();
@@ -32,7 +32,7 @@ const FormLogin = () => {
             <Icon
               name="user"
               size={24}
-              color={themeColors.disabledIcon}
+              color={themeColors.gray.main}
               style={styles.inputRightIcon}
             />
           }
@@ -49,7 +49,7 @@ const FormLogin = () => {
             <Icon
               name={showPassword ? 'eye' : 'eye-off'}
               size={24}
-              color={themeColors.disabledIcon}
+              color={themeColors.gray.main}
               onPress={() => setShowPassword(prev => !prev)}
               style={styles.inputRightIcon}
             />
@@ -74,7 +74,7 @@ const FormLogin = () => {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    color: themeColors.disabledIcon,
+    color: themeColors.gray.main,
   },
   inputContainer: {
     borderRadius: 40,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   buttonTitle: {
-    fontSize: 20,
+    fontSize: 21,
     paddingVertical: 4,
     fontFamily: fontVariants.regular,
   },

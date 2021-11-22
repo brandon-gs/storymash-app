@@ -33,6 +33,8 @@ const ProfileHeader = ({navigation, title}: ProfileHeaderProps) => {
 
   const isOwnProfile = user!._id === profile.user._id;
 
+  const mainColor = theme.colors?.main?.main;
+
   return (
     <Box
       bg="white"
@@ -45,7 +47,7 @@ const ProfileHeader = ({navigation, title}: ProfileHeaderProps) => {
         <Icon
           name="chevron-back-outline"
           size={ICON_SIZE}
-          color={theme.colors!.primary}
+          color={mainColor}
           onPress={() => navigation.goBack()}
         />
       )}
@@ -57,7 +59,7 @@ const ProfileHeader = ({navigation, title}: ProfileHeaderProps) => {
       <Icon
         name="create-outline"
         size={isOwnProfile ? ICON_SIZE : 0}
-        color={theme.colors!.primary}
+        color={mainColor}
         // onPress={goToEditProfileScreen} TODO: Implement redirect to edit profile screen
       />
     </Box>

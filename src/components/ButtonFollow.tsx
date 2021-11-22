@@ -31,7 +31,7 @@ export default function ButtonFollow({
   if (isLoading) {
     return (
       <Box style={buttonStyle} height={ICON_SIZE}>
-        <ActivityIndicator size={ICON_SIZE} color={theme.colors?.primary} />
+        <ActivityIndicator size={ICON_SIZE} color={theme.colors?.main?.main} />
       </Box>
     );
   }
@@ -44,7 +44,7 @@ export default function ButtonFollow({
     <TouchableOpacity style={buttonStyle} onPress={handlePress}>
       <Icon
         name={isFollower ? 'person-remove' : 'person-add'}
-        color={isFollower ? theme.colors!.red!.main : theme.colors!.primary}
+        color={isFollower ? theme.colors?.red?.main : theme.colors!.main?.main}
         size={ICON_SIZE}
       />
     </TouchableOpacity>

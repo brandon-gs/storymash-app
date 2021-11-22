@@ -84,8 +84,8 @@ function SearchScreen() {
       <TabBar
         {...props}
         style={styles.tabItem}
-        labelStyle={[{color: theme.colors?.primary}, styles.tabItemTitle]}
-        indicatorStyle={{backgroundColor: theme.colors?.primary}}
+        labelStyle={[{color: theme.colors?.main?.main}, styles.tabItemTitle]}
+        indicatorStyle={{backgroundColor: theme.colors?.main?.main}}
       />
     ),
     [theme.colors],

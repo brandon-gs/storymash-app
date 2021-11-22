@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {Loader} from 'components';
 import {ListStories} from 'containers';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const AllStoriesScreen = () => {
   const dispatch = useThunkDispatch();
@@ -35,7 +35,7 @@ const AllStoriesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={themeColors.primary} />
+      <StatusBar backgroundColor={themeColors.main.main} />
       <ListStories
         hasNextPage={hasNextPage}
         stories={docs}

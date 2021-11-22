@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, StyledText} from 'components';
 import {StyleSheet} from 'react-native';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -22,7 +22,7 @@ const SettingsItem = ({iconName, title, onPress}: SettingsItemProps) => {
         py={1.5}
         style={styles.container}>
         <Box mr={1}>
-          <Icon name={iconName} size={24} color={themeColors.primary} />
+          <Icon name={iconName} size={24} color={themeColors.main.main} />
         </Box>
         <StyledText fsize={2.5} color="primary">
           {title}

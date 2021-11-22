@@ -2,7 +2,7 @@ import React from 'react';
 import {Box, StyledText} from 'components';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {StyleSheet} from 'react-native';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 interface HeaderModalCommentsProps {
   text?: string;
@@ -25,7 +25,10 @@ const HeaderModalComments = ({
           onPress={goBack}
         />
       )}
-      <StyledText fsize={2.6} fontVariant="semiBold" colorTheme="disabledIcon">
+      <StyledText
+        fsize={2.6}
+        fontVariant="semiBold"
+        color={themeColors.gray.main}>
         {text ? text : `Comentarios (${commentsCount})`}
       </StyledText>
     </Box>

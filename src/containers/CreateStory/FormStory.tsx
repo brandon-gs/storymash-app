@@ -12,9 +12,14 @@ function FormStory() {
     'lorem lorem adadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadadaadadadadada ',
   );
 
+  const mainColor = theme.colors?.main?.main;
+
   return (
     <Box px={2} py={2} alignItems="center">
-      <StyledText fsize={3.5} colorTheme="disabledIcon" fontVariant="bold">
+      <StyledText
+        fsize={3.5}
+        color={theme.colors?.gray?.main}
+        fontVariant="bold">
         Crear historia
       </StyledText>
       <Box width="100%" mt={2}>
@@ -24,7 +29,7 @@ function FormStory() {
           placeholder="Escribe el título de tu historia"
           value={title}
           onChangeText={setTitle}
-          tintColor={theme.colors?.primary}
+          tintColor={mainColor}
           labelTextStyle={styles.labelTextStyle}
           fontSize={18}
           labelFontSize={18}
@@ -38,7 +43,7 @@ function FormStory() {
           placeholder="Escribe tu historia..."
           value={content}
           onChangeText={setContent}
-          tintColor={theme.colors?.primary}
+          tintColor={mainColor}
           labelTextStyle={styles.labelTextStyle}
           fontSize={18}
           labelFontSize={18}

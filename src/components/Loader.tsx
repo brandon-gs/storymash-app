@@ -22,7 +22,11 @@ export default function Loader({
 
   return (
     <View style={[styles.loaderContainer, {backgroundColor: bg}]}>
-      <ActivityIndicator size={72} color={theme.colors?.primary} {...props} />
+      <ActivityIndicator
+        size={72}
+        color={theme.colors?.main?.main}
+        {...props}
+      />
     </View>
   );
 }

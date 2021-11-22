@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 import TimeAgo from 'react-native-timeago';
 import _ from 'lodash';
 
@@ -51,7 +51,7 @@ const Comment = ({
             <Icon
               name="ellipsis-vertical"
               size={24}
-              color={themeColors.disabledIcon}
+              color={themeColors.gray.main}
             />
           </Box>
         </TouchableOpacity>

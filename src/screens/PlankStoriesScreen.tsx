@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import actions from 'store/actions';
 import {Loader} from 'components';
 import {EmptyStories, ListStories} from 'containers';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const PlankStoriesScreen = () => {
   const dispatch = useThunkDispatch();
@@ -35,7 +35,7 @@ const PlankStoriesScreen = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={themeColors.primary} />
+      <StatusBar backgroundColor={themeColors.main.main} />
       <ListStories
         EmptyComponent={
           <EmptyStories

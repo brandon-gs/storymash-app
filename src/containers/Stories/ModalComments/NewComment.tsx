@@ -7,7 +7,7 @@ import {Keyboard} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useThunkDispatch} from 'hooks';
 import actions from 'store/actions';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const NewComment = () => {
   const dispatch = useThunkDispatch();
@@ -51,7 +51,7 @@ const NewComment = () => {
               <TouchableOpacity
                 style={styles.rightIconButton}
                 onPress={handleSubmitComment}>
-                <Icon name="send" size={24} color={theme.colors?.primary} />
+                <Icon name="send" size={24} color={theme.colors?.main?.main} />
               </TouchableOpacity>
             ) : undefined
           }

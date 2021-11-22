@@ -96,7 +96,7 @@ function ListStories({
   const renderLoader = () => {
     return loading ? (
       <Box my={8} alignItems="center">
-        <ActivityIndicator size="large" color={theme.colors?.primary} />
+        <ActivityIndicator size="large" color={theme.colors?.main?.main} />
       </Box>
     ) : null;
   };

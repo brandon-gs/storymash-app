@@ -8,7 +8,7 @@ import {ReadStory, ModalComments} from 'containers';
 import {useSelector} from 'react-redux';
 import {Loader} from 'components';
 import {Host} from 'react-native-portalize';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const ReadStoryScreen = () => {
   const route =
@@ -65,7 +65,7 @@ const ReadStoryScreen = () => {
 
   return (
     <Host>
-      <StatusBar backgroundColor={themeColors.primary} />
+      <StatusBar backgroundColor={themeColors.main.main} />
       <ScrollView
         keyboardShouldPersistTaps="always"
         keyboardDismissMode="on-drag"

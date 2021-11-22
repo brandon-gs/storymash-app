@@ -7,7 +7,7 @@ import React, {useCallback} from 'react';
 import {StatusBar} from 'react-native';
 import {useSelector} from 'react-redux';
 import actions from 'store/actions';
-import {themeColors} from 'theme/theme';
+import {themeColors} from 'theme/themeColors';
 
 const ProfileScreen = () => {
   const dispatch = useThunkDispatch();
@@ -49,7 +49,7 @@ const ProfileScreen = () => {
 
   return (
     <>
-      <StatusBar backgroundColor={themeColors.primary} />
+      <StatusBar backgroundColor={themeColors.main.main} />
       <StoriesProfile profile={profile} />
     </>
   );

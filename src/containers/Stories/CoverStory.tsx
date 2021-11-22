@@ -1,8 +1,7 @@
 import React from 'react';
 import {Story} from 'interfaces/story';
-import {Chip, Image} from 'react-native-elements';
+import {Chip, Image, useTheme} from 'react-native-elements';
 import {ActivityIndicator, StyleSheet, TouchableOpacity} from 'react-native';
-import {themeColors} from 'theme/theme';
 import Svg, {Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
 import {StyledText, UserAvatar} from 'components';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -32,6 +31,8 @@ export default function CoverStory({
 }: CoverStoryProps) {
   const isNew = story.totalParts <= 1;
 
+  const {theme} = useTheme();
+
   const goToProfileProps = goToProfile
     ? {
         onPress: goToProfile,
@@ -47,7 +48,7 @@ export default function CoverStory({
         }}
         style={styles.coverImage}
         PlaceholderContent={
-          <ActivityIndicator size="large" color={themeColors.primary} />
+          <ActivityIndicator size="large" color={theme.colors?.main?.main} />
         }
       />
       <Svg height={COVER_SIZE} width="100%" style={styles.gradientContainer}>
@@ -78,8 +79,8 @@ export default function CoverStory({
             styles.chipButton,
             {
               backgroundColor: isNew
-                ? themeColors.primaryLight
-                : themeColors.secondary,
+                ? theme.colors?.main?.light
+                : theme.colors?.secondary,
             },
           ]}
           disabledTitleStyle={styles.chipTitle}
